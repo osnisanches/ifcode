@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Consulta de Matrícula</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    input { margin: 5px 0; padding: 8px; width: 100%; max-width: 300px; }
+    button { padding: 8px 16px; margin-top: 10px; }
+    #resultado { margin-top: 20px; }
+    .sucesso { color: green; }
+    .falha { color: red; }
+    .situacao { font-weight: bold; color: blue; }
+  </style>
+</head>
+<body>
+
+<h2>Consulta de Matrícula</h2>
+
+<div id="consulta-form">
+  <input type="text" id="matricula" placeholder="Matrícula">
+  <input type="text" id="nome" placeholder="Nome completo">
+  <button onclick="consultarDados()">Consultar</button>
+</div>
+
+<div id="resultado"></div>
+
+<script>
+function consultarDados() {
+  const matricula = document.getElementById('matricula').value.trim();
+  const nome = document.getElementById('nome').value.trim();
+  const resultadoDiv = document.getElementById('resultado');
+
+  if (!matricula || !nome) {
+    resultadoDiv.innerHTML = "<p class='falha'>Por favor, preencha ambos os campos.</p>";
+    return;
+  }
+
+  resultadoDiv.innerHTML = "<p>Consultando...</p>";
+
+  const url = `https://script.google.com/macros/s/AKfycbzGcvNTxEPqsIU1riotWxhAhOz_gWEgZRK5seLr8cV1fKqeBIaPzY6NXS5soweh7Nqqaw/exec?matricula=${encodeURIComponent(matricula)}&nome=${encodeURIComponent(nome)}`;
+
+  fetch(url)
+    .then(response => response.json())
+    .then(data => {
+      if (data.status === "sucesso") {
+        resultadoDiv.innerHTML = `
+          <p class="sucesso">Status: <strong>Consulta realizada com sucesso</strong></p>
+          <p><strong>Matrícula:</strong> ${data.matricula} | <strong>Nome:</strong> ${data.nome}</p>
+          <p class="situacao">Situação: ${data.situacao}</p>
+          <p>${data.descricao}</p>
+          <button onclick="novaConsulta()">Nova consulta</button>
+        `;
+      } else {
+        resultadoDiv.innerHTML = `
+          <p class="falha">Status: <strong>Falha ao consultar dados</strong></p>
+          <p>${data.mensagem}</p>
+          <button onclick="novaConsulta()">Nova consulta</button>
+        `;
+      }
+    })
+    .catch(error => {
+      resultadoDiv.innerHTML = `<p class="falha">Erro na consulta: ${error}</p>
+      <button onclick="novaConsulta()">Nova consulta</button>`;
+    });
+}
+
+function novaConsulta() {
+  document.getElementById('matricula').value = '';
+  document.getElementById('nome').value = '';
+  document.getElementById('resultado').innerHTML = '';
+}
+</script>
+
+</body>
+</html>
