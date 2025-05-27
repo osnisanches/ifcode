@@ -38,7 +38,7 @@ function consultarDados() {
   resultadoDiv.innerHTML = "<p>Consultando...</p>";
 
   const tipo = /^[0-9]+$/.test(entrada) ? 'matricula' : 'nome';
-  const url = `https://script.google.com/macros/s/AKfycbzGcvNTxEPqsIU1riotWxhAhOz_gWEgZRK5seLr8cV1fKqeBIaPzY6NXS5soweh7Nqqaw/exec?${tipo}=${encodeURIComponent(entrada)}`;
+  const url = `https://script.google.com/macros/s/AKfycbyR4fuEeWPYSyOQm8B5IOAnL3ZzBZhBGRs4iqfpFFIVoEiF6xRm3Tobu0W8HP3m2gw1/exec?${tipo}=${encodeURIComponent(entrada)}`;
 
   fetch(url)
     .then(response => response.json())
@@ -78,4 +78,4 @@ function novaConsulta() {
 
 </body>
 </html>
-2
+3
