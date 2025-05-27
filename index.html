@@ -3,26 +3,82 @@
 <head>
   <meta charset="UTF-8">
   <title>Consulta</title>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    body { font-family: Arial, sans-serif; padding: 20px; max-width: 400px; margin: auto; }
-    input { margin-top: 10px; padding: 10px; width: 90%; font-size: 16px; }
-    button { padding: 10px 20px; margin-top: 10px; font-size: 16px; cursor: pointer; }
-    #resultado { margin-top: 20px; }
-    .sucesso { color: green; font-weight: bold; }
-    .falha { color: red; font-weight: bold; }
-    .situacao { font-weight: bold; color: blue; margin-top: 10px; }
+    body {
+      font-family: 'Open Sans', Arial, sans-serif;
+      padding: 20px;
+      max-width: 400px;
+      margin: auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      font-size: 14px; /* Reduzido de 16px (padrão) para 14px */
+    }
+    .container {
+      border: 1px solid #e0e0e0;
+      border-radius: 4px;
+      padding: 25px;
+      width: 100%;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    input {
+      margin-top: 10px;
+      padding: 10px;
+      width: 90%;
+      font-size: 14px; /* Ajustado para 14px */
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+    button {
+      padding: 10px 20px;
+      margin-top: 10px;
+      font-size: 14px; /* Ajustado para 14px */
+      cursor: pointer;
+      background-color: #f0f0f0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      transition: background-color 0.3s;
+    }
+    button:hover {
+      background-color: #e0e0e0;
+    }
+    #resultado {
+      margin-top: 20px;
+      line-height: 1.5;
+    }
+    .sucesso {
+      color: green;
+      font-weight: bold;
+    }
+    .falha {
+      color: red;
+      font-weight: bold;
+    }
+    .situacao {
+      font-weight: bold;
+      color: blue;
+      margin-top: 10px;
+    }
+    .detalhes {
+      margin-top: 10px;
+    }
+    .info-line {
+      margin-bottom: 8px;
+    }
   </style>
 </head>
 <body>
 
-<h2>Consulta Pé-de-Meia</h2>
+<div class="container">
+  <div id="consulta-form">
+    <input type="text" id="entrada" placeholder="Digite sua matrícula ou nome completo">
+    <button onclick="consultarDados()">Consultar</button>
+  </div>
 
-<div id="consulta-form">
-  <input type="text" id="entrada" placeholder="Digite sua matrícula ou nome completo">
-  <button onclick="consultarDados()">Consultar</button>
+  <div id="resultado"></div>
 </div>
-
-<div id="resultado"></div>
 
 <script>
 function consultarDados() {
@@ -46,14 +102,15 @@ function consultarDados() {
       if (data.status === "sucesso") {
         resultadoDiv.innerHTML = `
           <p class="sucesso">Consulta realizada com sucesso.</p>
-          <p><strong>Matrícula:</strong> ${data.matricula} | <strong>Nome:</strong> ${data.nome}</p>
+          <div class="info-line"><strong>Matrícula:</strong> ${data.matricula}</div>
+          <div class="info-line"><strong>Nome:</strong> ${data.nome}</div>
           <p class="situacao">Situação: ${data.situacao}</p>
-          <p>${data.descricao}</p>
+          <div class="detalhes"><strong>Detalhes:</strong> ${data.descricao}</div>
           <button onclick="novaConsulta()">Nova consulta</button>
         `;
       } else {
         resultadoDiv.innerHTML = `
-          <p class="falha">Falha ao consultar dados.</p>
+          <p class="falha">Falha ao acessar dados. Tente novamente.</p>
           <p>${data.mensagem || ''}</p>
           <button onclick="novaConsulta()">Nova consulta</button>
         `;
