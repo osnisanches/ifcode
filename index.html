@@ -2,24 +2,23 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Consulta de Matrícula</title>
+  <title>Consulta</title>
   <style>
-    body { font-family: Arial, sans-serif; padding: 20px; }
-    input { margin: 5px 0; padding: 8px; width: 100%; max-width: 300px; }
-    button { padding: 8px 16px; margin-top: 10px; }
+    body { font-family: Arial, sans-serif; padding: 20px; max-width: 400px; margin: auto; }
+    input { margin-top: 10px; padding: 10px; width: 100%; font-size: 16px; }
+    button { padding: 10px 20px; margin-top: 10px; font-size: 16px; cursor: pointer; }
     #resultado { margin-top: 20px; }
-    .sucesso { color: green; }
-    .falha { color: red; }
-    .situacao { font-weight: bold; color: blue; }
+    .sucesso { color: green; font-weight: bold; }
+    .falha { color: red; font-weight: bold; }
+    .situacao { font-weight: bold; color: blue; margin-top: 10px; }
   </style>
 </head>
 <body>
 
-<h2>Consulta de Matrícula</h2>
+<h2>Consulta de Matrícula ou Nome</h2>
 
 <div id="consulta-form">
-  <input type="text" id="matricula" placeholder="Matrícula">
-  <input type="text" id="nome" placeholder="Nome completo">
+  <input type="text" id="entrada" placeholder="Digite matrícula ou nome">
   <button onclick="consultarDados()">Consultar</button>
 </div>
 
@@ -27,25 +26,26 @@
 
 <script>
 function consultarDados() {
-  const matricula = document.getElementById('matricula').value.trim();
-  const nome = document.getElementById('nome').value.trim();
+  const entrada = document.getElementById('entrada').value.trim();
   const resultadoDiv = document.getElementById('resultado');
+  const formDiv = document.getElementById('consulta-form');
 
-  if (!matricula || !nome) {
-    resultadoDiv.innerHTML = "<p class='falha'>Por favor, preencha ambos os campos.</p>";
+  if (!entrada) {
+    resultadoDiv.innerHTML = "<p class='falha'>Por favor, insira matrícula ou nome.</p>";
     return;
   }
 
   resultadoDiv.innerHTML = "<p>Consultando...</p>";
 
-  const url = `https://script.google.com/macros/s/AKfycbzGcvNTxEPqsIU1riotWxhAhOz_gWEgZRK5seLr8cV1fKqeBIaPzY6NXS5soweh7Nqqaw/exec?matricula=${encodeURIComponent(matricula)}&nome=${encodeURIComponent(nome)}`;
+  const tipo = /^[0-9]+$/.test(entrada) ? 'matricula' : 'nome';
+  const url = `https://script.google.com/macros/s/AKfycbzGcvNTxEPqsIU1riotWxhAhOz_gWEgZRK5seLr8cV1fKqeBIaPzY6NXS5soweh7Nqqaw/exec?${tipo}=${encodeURIComponent(entrada)}`;
 
   fetch(url)
     .then(response => response.json())
     .then(data => {
       if (data.status === "sucesso") {
         resultadoDiv.innerHTML = `
-          <p class="sucesso">Status: <strong>Consulta realizada com sucesso</strong></p>
+          <p class="sucesso">Consulta realizada com sucesso.</p>
           <p><strong>Matrícula:</strong> ${data.matricula} | <strong>Nome:</strong> ${data.nome}</p>
           <p class="situacao">Situação: ${data.situacao}</p>
           <p>${data.descricao}</p>
@@ -53,24 +53,29 @@ function consultarDados() {
         `;
       } else {
         resultadoDiv.innerHTML = `
-          <p class="falha">Status: <strong>Falha ao consultar dados</strong></p>
-          <p>${data.mensagem}</p>
+          <p class="falha">Falha ao consultar dados.</p>
+          <p>${data.mensagem || ''}</p>
           <button onclick="novaConsulta()">Nova consulta</button>
         `;
       }
+      formDiv.style.display = 'none'; // Oculta campo de entrada após exibir resultado
     })
     .catch(error => {
-      resultadoDiv.innerHTML = `<p class="falha">Erro na consulta: ${error}</p>
-      <button onclick="novaConsulta()">Nova consulta</button>`;
+      resultadoDiv.innerHTML = `
+        <p class="falha">Erro na consulta: ${error}</p>
+        <button onclick="novaConsulta()">Nova consulta</button>
+      `;
+      formDiv.style.display = 'none';
     });
 }
 
 function novaConsulta() {
-  document.getElementById('matricula').value = '';
-  document.getElementById('nome').value = '';
+  document.getElementById('entrada').value = '';
   document.getElementById('resultado').innerHTML = '';
+  document.getElementById('consulta-form').style.display = 'block';
 }
 </script>
 
 </body>
 </html>
+2
