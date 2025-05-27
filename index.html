@@ -2,37 +2,42 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Consulta</title>
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
     body {
       font-family: 'Open Sans', Arial, sans-serif;
-      padding: 20px;
+      padding: 15px 10px; /* Reduzi o padding lateral */
       margin: 0;
       width: 100%;
       height: 100%;
       font-size: 14px;
+      overflow-x: hidden; /* Previne barra de rolagem horizontal */
     }
     .container {
       border: 1px solid #e0e0e0;
       border-radius: 4px;
-      padding: 25px;
-      width: calc(100% - 50px); /* 100% menos o padding */
-      height: calc(100% - 50px); /* 100% menos o padding */
+      padding: 15px;
+      width: 100%;
+      min-height: 100%;
       box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-      box-sizing: border-box; /* inclui padding na largura/altura */
     }
     input {
       margin-top: 10px;
-      padding: 10px;
-      width: calc(100% - 20px); /* 100% menos o padding */
+      padding: 8px 10px;
+      width: 100%;
       font-size: 14px;
       border: 1px solid #ddd;
       border-radius: 4px;
-      box-sizing: border-box;
     }
     button {
-      padding: 10px 20px;
+      padding: 8px 15px;
       margin-top: 10px;
       font-size: 14px;
       cursor: pointer;
@@ -40,13 +45,15 @@
       border: 1px solid #ccc;
       border-radius: 4px;
       transition: background-color 0.3s;
+      width: 100%;
     }
     button:hover {
       background-color: #e0e0e0;
     }
     #resultado {
-      margin-top: 20px;
+      margin-top: 15px;
       line-height: 1.5;
+      word-break: break-word; /* Evita overflow de texto */
     }
     .sucesso {
       color: green;
@@ -119,7 +126,7 @@ function consultarDados() {
     })
     .catch(error => {
       resultadoDiv.innerHTML = `
-        <p class="falha">Erro na consulta: ${error}</p>
+        <p class="falha">Erro na consulta: ${error.message || error}</p>
         <button onclick="novaConsulta()">Nova consulta</button>
       `;
       formDiv.style.display = 'none';
@@ -131,6 +138,37 @@ function novaConsulta() {
   document.getElementById('resultado').innerHTML = '';
   document.getElementById('consulta-form').style.display = 'block';
 }
+
+// Ajusta a altura do iframe pai quando necessário
+function ajustarAlturaIframe() {
+  const body = document.body;
+  const html = document.documentElement;
+  const height = Math.max(
+    body.scrollHeight,
+    body.offsetHeight,
+    html.clientHeight,
+    html.scrollHeight,
+    html.offsetHeight
+  );
+  
+  window.parent.postMessage({
+    type: 'setIframeHeight',
+    height: height
+  }, '*');
+}
+
+// Observa mudanças no DOM para ajustar o iframe
+const observer = new MutationObserver(ajustarAlturaIframe);
+observer.observe(document.body, {
+  childList: true,
+  subtree: true,
+  attributes: true,
+  characterData: true
+});
+
+// Ajusta inicialmente
+window.addEventListener('load', ajustarAlturaIframe);
+window.addEventListener('resize', ajustarAlturaIframe);
 </script>
 
 </body>
