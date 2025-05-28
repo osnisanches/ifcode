@@ -101,7 +101,7 @@ function consultarDados() {
   resultadoDiv.innerHTML = "<p>Consultando...</p>";
 
   const tipo = /^[0-9]+$/.test(entrada) ? 'matricula' : 'nome';
-  const url = `https://script.google.com/macros/s/AKfycbxt0y0xA0bOwFhDpr8FUL1AujQg6iAPbI1zAzhuO6S-B01AxXiFV9P6uG1xJggM_rTBjA/exec?${tipo}=${encodeURIComponent(entrada)}`;
+  const url = `https://script.google.com/macros/s/AKfycbxKdzOjGpvKOMGM4Zx5sJrKsoH4TLCO41eFti9NjyMw0NroKVBHAOafGgxTgohJlzxpqg/exec?${tipo}=${encodeURIComponent(entrada)}`;
 
   fetch(url)
     .then(response => response.json())
