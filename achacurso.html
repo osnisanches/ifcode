@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cursos - IFPA Bragança</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+  <style>
+    :root {--verde-principal:#2e7d32;--verde-secundario:#4caf50;--verde-claro:#e8f5e9;--verde-escuro:#1b5e20;--azul-principal:#1565c0;--azul-secundario:#1976d2;--azul-claro:#e3f2fd;--azul-escuro:#0d47a1;--laranja:#ff6d00}
+    body{background-color:#f8f9fa;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif}
+    .header{background:linear-gradient(135deg,var(--verde-escuro),var(--verde-principal));color:#fff;padding:2rem 0;margin-bottom:2rem}
+    .btn-estudar-ifpa{background:linear-gradient(135deg,var(--verde-principal),var(--verde-escuro));color:#fff;font-size:1.3rem;font-weight:600;padding:1rem 2rem;border:none;border-radius:50px;transition:.3s;box-shadow:0 4px 15px rgba(46,125,50,.3)}
+    .btn-estudar-ifpa:hover{transform:translateY(-3px);box-shadow:0 6px 20px rgba(46,125,50,.4);color:#fff}
+    .wizard-container{background:linear-gradient(135deg,var(--azul-principal),var(--azul-escuro));color:#fff;border-radius:20px;box-shadow:0 10px 30px rgba(21,101,192,.4);padding:2.5rem;margin-bottom:2rem;position:relative;overflow:hidden}
+    .wizard-container.compacto{padding:1.25rem}
+    .wizard-container::before{content:'';position:absolute;top:-50%;right:-50%;width:100%;height:100%;background:radial-gradient(circle,rgba(255,255,255,.1) 1%,transparent 1%);background-size:20px 20px;transform:rotate(30deg);animation:float 20s infinite linear}
+    @keyframes float{0%{transform:rotate(30deg) translateX(0) translateY(0)}100%{transform:rotate(30deg) translateX(-20px) translateY(-20px)}}
+    .wizard-step{display:none;animation:fadeInUp .6s ease-out;position:relative;z-index:2}
+    .wizard-step.active{display:block}
+    @keyframes fadeInUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+    .wizard-card{background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.25);color:#fff;text-align:left;padding:1.5rem;margin:.7rem 0;border-radius:15px;transition:.4s;width:100%;backdrop-filter:blur(10px);position:relative;overflow:hidden}
+    .wizard-card::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.2),transparent);transition:left .6s}
+    .wizard-card:hover::before{left:100%}
+    .wizard-card:hover{background:rgba(255,255,255,.25);border-color:rgba(255,255,255,.4);transform:translateX(8px) scale(1.02);box-shadow:0 8px 20px rgba(0,0,0,.2)}
+    .wizard-card .bi-chevron-right{float:right;transition:transform .3s ease}
+    .wizard-card:hover .bi-chevron-right{transform:translateX(5px)}
+    .wizard-icon{font-size:3rem;margin-bottom:1rem;display:inline-block;animation:bounce 2s infinite}
+    @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+    .wizard-result{background:rgba(255,255,255,.2);border-radius:15px;padding:2rem;margin:1.5rem 0;border-left:4px solid var(--laranja);position:relative;overflow:hidden}
+    .wizard-result::after{content:'✨';position:absolute;top:10px;right:15px;font-size:1.5rem;animation:sparkle 2s infinite}
+    @keyframes sparkle{0%,100%{opacity:.7;transform:scale(1)}50%{opacity:1;transform:scale(1.1)}}
+    .wizard-indicator{display:flex;justify-content:center;margin:1.5rem 0 2.5rem 0;gap:8px}
+    .wizard-dot{width:12px;height:12px;border-radius:50%;background:rgba(255,255,255,.3);transition:.4s;position:relative}
+    .wizard-dot.active{background:#fff;transform:scale(1.3);box-shadow:0 0 10px rgba(255,255,255,.5)}
+    .wizard-dot.active::after{content:'';position:absolute;top:-3px;left:-3px;right:-3px;bottom:-3px;border-radius:50%;border:1px solid #fff;animation:pulse 1.5s infinite}
+    @keyframes pulse{0%{transform:scale(1);opacity:1}100%{transform:scale(1.5);opacity:0}}
+    .btn-wizard{background:rgba(255,255,255,.25);border:2px solid rgba(255,255,255,.4);color:#fff;padding:1rem 2rem;border-radius:30px;transition:.4s;font-weight:600;backdrop-filter:blur(10px)}
+    .btn-wizard:hover{background:rgba(255,255,255,.35);color:#fff;transform:translateY(-3px);box-shadow:0 8px 20px rgba(0,0,0,.2)}
+    .btn-wizard-primary{background:linear-gradient(135deg,var(--laranja),#ff9100);border:none;box-shadow:0 4px 15px rgba(255,109,0,.4)}
+    .btn-wizard-primary:hover{background:linear-gradient(135deg,#ff9100,var(--laranja));box-shadow:0 6px 20px rgba(255,109,0,.6)}
+    .campus-selector{background:rgba(255,255,255,.1);border-radius:10px;padding:1rem;margin-bottom:1.5rem;text-align:center}
+    .curso-card{transition:transform .3s ease,box-shadow .3s ease;border:none;border-top:4px solid var(--verde-principal);margin-bottom:1.5rem;height:100%}
+    .curso-card:hover{transform:translateY(-5px);box-shadow:0 10px 20px rgba(0,0,0,.1)}
+    .curso-card.inativo{opacity:.7;border-top:4px solid #6c757d}
+    .curso-card.inativo .card-header{background-color:#6c757d}
+    .card-header{background-color:var(--verde-principal);color:#fff;font-weight:600}
+    .badge-status{font-size:.7rem}
+    .btn-verde{background-color:var(--verde-principal);border-color:var(--verde-principal);color:#fff}
+    .btn-verde:hover{background-color:var(--verde-escuro);border-color:var(--verde-escuro);color:#fff}
+    .categoria-btn{background-color:#fff;color:var(--verde-principal);border:2px solid var(--verde-principal);margin:.2rem;flex-grow:1}
+    .categoria-btn:hover,.categoria-btn.active{background-color:var(--verde-principal);color:#fff;border-color:var(--verde-principal)}
+    .curso-detalhes{display:none;background-color:#fff;border-radius:8px;box-shadow:0 5px 15px rgba(0,0,0,.1);padding:2rem;margin-top:2rem}
+    .curso-info{background-color:var(--verde-claro);border-radius:8px;padding:1.5rem}
+    .fade-in{animation:fadeIn .5s}
+    @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+    .curso-img{height:120px;background-color:var(--verde-claro);display:flex;align-items:center;justify-content:center;border-radius:8px;margin-bottom:1rem}
+    .detalhe-media{width:100%;height:180px;object-fit:cover;border-radius:8px;margin-bottom:1rem}
+    .curso-img i{font-size:3rem;color:var(--verde-principal)}
+    .loading{text-align:center;padding:2rem;color:var(--verde-principal)}
+    @media (max-width:768px){.categoria-btn{font-size:.9rem;padding:.5rem}.wizard-container{padding:1.5rem}.wizard-card{padding:1.2rem;font-size:.9rem}.wizard-icon{font-size:2.5rem}}
+  </style>
+</head>
+<body>
+  <div class="header d-none">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-md-8">
+          <h1 class="display-5 fw-bold">Cursos IFPA Bragança</h1>
+          <p class="lead">Conheça nossas opções de formação técnica e superior</p>
+        </div>
+        <div class="col-md-4 text-md-end">
+          <img src="https://braganca.ifpa.edu.br/templates/ifpa/images/logo.png" alt="IFPA Bragança" class="img-fluid" style="max-height:80px">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row mb-5 d-none">
+      <div class="col-12 text-center">
+        <a href="https://prosel.ifpa.edu.br" class="btn btn-estudar-ifpa" target="_blank"><i class="bi bi-mortarboard me-2"></i>Quero estudar no IFPA</a>
+      </div>
+    </div>
+
+    <div class="wizard-container compacto">
+
+      <div id="step-0" class="wizard-step active">
+        <div class="text-center py-3">
+          <div class="wizard-icon"><i class="bi bi-compass"></i></div>
+          <div class="d-flex align-items-center justify-content-center mb-2">
+            <img id="wizard-ifpa-logo" src="https://braganca.ifpa.edu.br/images/ifpa-teste4.png" alt="IFPA" style="height:28px;margin-right:.5rem;vertical-align:middle">
+            <h4 id="wizard-intro-title" class="mb-0">Descubra seu curso ideal no IFPA campus Bragança</h4>
+          </div>
+          <p class="mb-3 opacity-75">Encontre a formação perfeita para seu futuro!</p>
+          <button class="btn-wizard btn-wizard-primary" onclick="nextStep(1)">Começar agora</button>
+        </div>
+      </div>
+      <div id="wizard-brand" class="text-center opacity-75 mt-2 d-none"></div>
+
+      <div id="step-1" class="wizard-step">
+        <div class="wizard-indicator"><div class="wizard-dot active"></div><div class="wizard-dot"></div><div class="wizard-dot"></div></div>
+        <h5 class="mb-4 text-center">Qual o seu nível de ensino?</h5>
+        <button class="wizard-card" onclick="nextStep(1.1)"><i class="bi bi-journal me-2"></i>Ensino Fundamental <small class="opacity-75 d-block">incompleto, em curso ou concluído</small><i class="bi bi-chevron-right"></i></button>
+        <button class="wizard-card" onclick="nextStep(1.2)"><i class="bi bi-book me-2"></i>Ensino Médio <small class="opacity-75 d-block">incompleto, em curso ou concluído</small><i class="bi bi-chevron-right"></i></button>
+        <button class="wizard-card" onclick="selectEscolaridade('superior', 1)"><i class="bi bi-award me-2"></i>Ensino Superior <small class="opacity-75 d-block">incompleto, em curso ou concluído</small><i class="bi bi-chevron-right"></i></button>
+      </div>
+
+      <div id="step-1.1" class="wizard-step">
+        <div class="wizard-indicator"><div class="wizard-dot"></div><div class="wizard-dot active"></div><div class="wizard-dot"></div></div>
+        <h5 class="mb-4 text-center">Ensino Fundamental</h5>
+        <button class="wizard-card" onclick="selectEscolaridade('fundamental-incompleto', 1.1)"><i class="bi bi-person me-2"></i>Fundamental incompleto</button>
+        <button class="wizard-card" onclick="selectEscolaridade('9-ano', 1.1)"><i class="bi bi-mortarboard me-2"></i>Estou no 9º ano</button>
+        <button class="wizard-card" onclick="selectEscolaridade('fundamental-completo', 1.1)"><i class="bi bi-check-circle me-2"></i>Fundamental completo</button>
+        <button class="btn-wizard mt-3" onclick="nextStep(1)"><i class="bi bi-arrow-left me-2"></i>Voltar</button>
+      </div>
+
+      <div id="step-1.2" class="wizard-step">
+        <div class="wizard-indicator"><div class="wizard-dot"></div><div class="wizard-dot active"></div><div class="wizard-dot"></div></div>
+        <h5 class="mb-4 text-center">Ensino Médio</h5>
+        <button class="wizard-card" onclick="nextStep(1.21)"><i class="bi bi-clock me-2"></i>Estou cursando <i class="bi bi-chevron-right"></i></button>
+        <button class="wizard-card" onclick="selectEscolaridade('medio-concluido', 1.2)"><i class="bi bi-check-circle me-2"></i>Já concluí</button>
+        <button class="btn-wizard mt-3" onclick="nextStep(1)"><i class="bi bi-arrow-left me-2"></i>Voltar</button>
+      </div>
+
+      <div id="step-1.21" class="wizard-step">
+        <div class="wizard-indicator"><div class="wizard-dot"></div><div class="wizard-dot active"></div><div class="wizard-dot"></div></div>
+        <h5 class="mb-4 text-center">Qual ano está cursando?</h5>
+        <button class="wizard-card" onclick="selectEscolaridade('medio-cursando', 1.21)"><i class="bi bi-1-circle me-2"></i>1º ou 2º anos</button>
+        <button class="wizard-card" onclick="selectEscolaridade('medio-concluindo', 1.21)"><i class="bi bi-3-circle me-2"></i>3º ano</button>
+        <button class="btn-wizard mt-3" onclick="nextStep(1.2)"><i class="bi bi-arrow-left me-2"></i>Voltar</button>
+      </div>
+
+      <div id="step-2" class="wizard-step">
+        <div class="wizard-indicator"><div class="wizard-dot"></div><div class="wizard-dot active"></div><div class="wizard-dot"></div></div>
+        <h5 class="mb-4 text-center">Você fez ou está inscrito no ENEM?</h5>
+        <p class="text-center opacity-75 mb-3">Necessário para cursos de graduação</p>
+        <button class="wizard-card" onclick="selectEnem('sim', 2)"><i class="bi bi-check-lg me-2"></i>Sim, fiz ou estou inscrito</button>
+        <button class="wizard-card" onclick="selectEnem('nao', 2)"><i class="bi bi-x-lg me-2"></i>Não fiz e não estou inscrito</button>
+      </div>
+
+      <div id="step-3" class="wizard-step">
+        <div class="wizard-indicator"><div class="wizard-dot"></div><div class="wizard-dot"></div><div class="wizard-dot active"></div></div>
+        <div class="wizard-result">
+          <h5 class="mb-3"><i class="bi bi-stars me-2"></i>Sua indicação</h5>
+          <div id="result-message" class="mb-3"></div>
+          <div id="result-cursos" class="mt-3"></div>
+        </div>
+        <div class="text-center mt-4">
+          <button class="btn-wizard btn-wizard-primary me-3" onclick="scrollToCursos()"><i class="bi bi-list-ul me-2"></i>Ver cursos recomendados</button>
+          <button class="btn-wizard" onclick="restartWizard()"><i class="bi bi-arrow-repeat me-2"></i>Refazer busca</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mb-4" id="cursos-section">
+      <div class="col-12">
+        <h3 class="mb-3">Nossos Cursos</h3>
+        <div class="d-flex flex-wrap align-items-center" id="filtro-categorias">
+          <button id="btn-todos" class="btn categoria-btn" style="background-color:#f1f3f5;border-color:#adb5bd;color:#343a40;margin-right:.5rem">Todos os cursos</button>
+          <input type="radio" class="btn-check" name="categoria" id="integrado" autocomplete="off" checked>
+          <label class="btn categoria-btn" for="integrado"><i class="bi bi-mortarboard-fill me-2"></i>Integrados <span class="badge bg-light text-dark ms-1" id="count-integrado">0</span></label>
+          <input type="radio" class="btn-check" name="categoria" id="subsequente" autocomplete="off">
+          <label class="btn categoria-btn" for="subsequente"><i class="bi bi-book-half me-2"></i>Subsequentes <span class="badge bg-light text-dark ms-1" id="count-subsequente">0</span></label>
+          <input type="radio" class="btn-check" name="categoria" id="graduacao" autocomplete="off">
+          <label class="btn categoria-btn" for="graduacao"><i class="bi bi-award-fill me-2"></i>Graduação <span class="badge bg-light text-dark ms-1" id="count-graduacao">0</span></label>
+          <input type="radio" class="btn-check" name="categoria" id="pos" autocomplete="off">
+          <label class="btn categoria-btn" for="pos"><i class="bi bi-graph-up me-2"></i>Pós-Graduação <span class="badge bg-light text-dark ms-1" id="count-pos">0</span></label>
+          <input type="radio" class="btn-check" name="categoria" id="fic" autocomplete="off">
+          <label class="btn categoria-btn" for="fic"><i class="bi bi-tools me-2"></i>FIC <span class="badge bg-light text-dark ms-1" id="count-fic">0</span></label>
+        </div>
+        <div id="categoria-descricao" class="text-muted mt-2"></div>
+      </div>
+    </div>
+
+    <div class="row" id="cursos-container">
+      <div class="col-12 loading">
+        <div class="spinner-border text-success" role="status"><span class="visually-hidden">Carregando cursos...</span></div>
+        <p class="mt-2">Carregando cursos...</p>
+      </div>
+    </div>
+
+    <div id="curso-detalhes" class="curso-detalhes"></div>
+    <div id="app-footer-brand" class="text-center text-muted small mt-3 d-none"></div>
+
+    <div class="row mt-5 d-none">
+      <div class="col-12 text-center">
+        <a href="https://prosel.ifpa.edu.br" class="btn btn-estudar-ifpa" target="_blank"><i class="bi bi-mortarboard me-2"></i>Quero estudar no IFPA</a>
+      </div>
+    </div>
+  </div>
+
+  <footer class="bg-dark text-light py-4 mt-5 d-none">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6"><h5>IFPA campus Bragança</h5><p>Instituto Federal de Educação, Ciência e Tecnologia do Pará</p></div>
+        <div class="col-md-6 text-md-end"><p>Av. São Roque, 1670 - Centro<br>Bragança - PA, 68600-000<br>Telefone: (91) 3425-1400</p></div>
+      </div>
+      <div class="row mt-3"><div class="col-12 text-center"><p class="mb-0">&copy; 2025 IFPA Bragança. Todos os direitos reservados.</p></div></div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const CONFIG = { campus: 'Bragança', jsonUrl: 'images/cursos.txt', colors: { primary: '#1565c0', secondary: '#1976d2', accent: '#ff6d00' }, proselUrl: 'https://prosel.ifpa.edu.br' };
+    let wizardData = { escolaridade: '', enem: '' };
+    let categoriasCount = { integrado: 0, subsequente: 0, graduacao: 0, pos: 0, fic: 0 };
+
+    function nextStep(step){document.querySelectorAll('.wizard-step').forEach(s=>s.classList.remove('active'));document.getElementById(`step-${step}`).classList.add('active');const wc=document.querySelector('.wizard-container');if(wc){wc.classList.remove('compacto')}const brandFooter=document.getElementById('app-footer-brand');if(brandFooter&&step!==0){brandFooter.classList.remove('d-none');brandFooter.textContent=`Guia de Cursos do IFPA. Criado em 2025 no ${window.campusNome||'IFPA campus Bragança'}.`}}
+    function selectEscolaridade(escolaridade){wizardData.escolaridade = escolaridade;if(escolaridade==='medio-concluindo'||escolaridade==='medio-concluido'){nextStep(2)}else{showResult()}}
+    function selectEnem(resposta){wizardData.enem = resposta;showResult()}
+    function showResult(){const messages={
+      'fundamental-incompleto':{message:'O IFPA campus Bragança oferta cursos FIC para quem ainda não concluiu o Ensino Fundamental.',categoria:'fic',count:categoriasCount.fic},
+      'fundamental-completo':{message:'Que tal fazer curso Técnico Integrado ao Ensino Médio?',categoria:'integrado',count:categoriasCount.integrado},
+      '9-ano':{message:'É o seu momento de começar no IFPA com o Ensino Médio Integrado!',categoria:'integrado',count:categoriasCount.integrado},
+      'medio-cursando':{message:'Tem um curso FIC esperando por você!',categoria:'fic',count:categoriasCount.fic},
+      'medio-concluindo':{message:wizardData.enem==='sim'?'Tá na hora de escolher o teu futuro em um dos cursos de Graduação!':'Para cursos de Graduação é necessário o ENEM. Enquanto isso, você pode fazer um curso Técnico Subsequente!',categoria:wizardData.enem==='sim'?'graduacao':'subsequente',count:wizardData.enem==='sim'?categoriasCount.graduacao:categoriasCount.subsequente},
+      'medio-concluido':{message:wizardData.enem==='sim'?'Tá na hora de escolher o teu futuro em um dos cursos Subsequentes ou de Graduação!':'Para cursos de Graduação é necessário o ENEM. Enquanto isso, você pode fazer um curso Técnico Subsequente!',categoria:wizardData.enem==='sim'?'subsequente,graduacao':'subsequente',count:wizardData.enem==='sim'?categoriasCount.subsequente+categoriasCount.graduacao:categoriasCount.subsequente},
+      'superior':{message:'O IFPA campus Bragança tem uma pós esperando por você!',categoria:'pos',count:categoriasCount.pos}
+    };
+    const result = messages[wizardData.escolaridade];const countText = result.count>1?`${result.count} opções disponíveis em Bragança.`:`${result.count} opção disponível em Bragança.`;
+    document.getElementById('result-message').innerHTML = `<p class="mb-2">${result.message}</p><p class="mb-0 fw-bold">${countText}</p>`;
+    if(result.categoria.includes(',')){document.querySelectorAll('.categoria-btn').forEach(btn=>btn.classList.remove('active'))}else{const radioBtn=document.getElementById(result.categoria);if(radioBtn){radioBtn.checked=true;filtrarCursos(result.categoria,window.cursosData||[])}}
+    nextStep(3)}
+    function scrollToCursos(){document.getElementById('cursos-section').scrollIntoView({behavior:'smooth',block:'start'})}
+    function restartWizard(){wizardData={escolaridade:'',enem:''};nextStep(0)}
+
+    const iconesCategorias={integrado:'bi-laptop',subsequente:'bi-gear-fill',graduacao:'bi-award-fill',pos:'bi-graph-up',fic:'bi-tools'};
+    const nomesCategorias={integrado:'Integrado',subsequente:'Subsequente',graduacao:'Graduação',pos:'Pós-Graduação',fic:'FIC'};
+
+    async function carregarCursos(){try{const response=await fetch(CONFIG.jsonUrl);const textData=await response.text();const data=JSON.parse(textData);window.cursosData=Array.isArray(data.cursos)?data.cursos:Array.isArray(data)?data:[];window.campusNome=data.campus||'IFPA campus Bragança';atualizarContagens(window.cursosData);updateCategoriaLabels();configurarFiltros(window.cursosData);mostrarTodos(window.cursosData)}catch(error){console.error('Erro ao carregar ou parsear cursos:',error);document.getElementById('cursos-container').innerHTML='<div class="col-12 text-center text-danger"><i class="bi bi-exclamation-triangle-fill display-4"></i><p class="mt-3">Erro ao carregar os cursos. Por favor, tente novamente mais tarde.</p></div>'}}
+    function exibirCursos(cursos){const container=document.getElementById('cursos-container');const detalhesDiv=document.getElementById('curso-detalhes');if(detalhesDiv){detalhesDiv.style.display='none';detalhesDiv.innerHTML=''}container.innerHTML='';if(!cursos.length){container.innerHTML='<div class="col-12 text-center"><p>Nenhum curso encontrado para esta categoria.</p></div>';return}cursos.forEach(curso=>{const isInativo=curso.status==='Inativo';const cardClass=isInativo?'curso-card inativo':'curso-card';const media=curso.imagem&&curso.imagem!=='#'?`<img class="curso-media" data-cat="${curso.categoria}" src="${curso.imagem}" alt="${curso.nome}" style="width:100%;height:120px;object-fit:cover;border-radius:8px">`:`<div class="curso-img"><i class="bi ${iconesCategorias[curso.categoria]}"></i></div>`;const cardHTML=`<div class="col-lg-4 col-md-6 curso-card-container" data-categoria="${curso.categoria}" data-curso-id="${curso.id}"><div class="card ${cardClass}"><div class="card-header d-flex justify-content-between align-items-center"><span>${nomesCategorias[curso.categoria]}</span><span class="badge ${isInativo?'bg-secondary':'bg-light text-dark'} badge-status">${curso.status}</span></div><div class="card-body">${media}<h5 class="card-title mt-2">${curso.nome}</h5><p class="card-text">${curso.descricao}</p><div class="d-flex justify-content-between mb-2"><small><i class="bi bi-clock me-1"></i> ${curso.cargaHoraria}</small><small><i class="bi bi-person me-1"></i> ${curso.vagas} vagas</small></div><div class="d-grid gap-2"><button class="btn ${isInativo?'btn-secondary':'btn-verde'} btn-detalhes" data-curso-id="${curso.id}">Ver detalhes</button>${curso.linkPPC&&curso.linkPPC!=='#'?`<a href="${curso.linkPPC}" class="btn btn-outline-${isInativo?'secondary':'success'} btn-sm" target="_blank"><i class="bi bi-file-text me-1"></i> PPC</a>`:''}${curso.linkCurso&&curso.linkCurso!=='#'?`<a href="${curso.linkCurso}" class="btn btn-outline-primary btn-sm" target="_blank"><i class="bi bi-link-45deg me-1"></i> Página do curso</a>`:''}</div></div></div></div>`;container.innerHTML+=cardHTML});document.querySelectorAll('.btn-detalhes').forEach(btn=>{btn.addEventListener('click',function(){const cursoId=this.getAttribute('data-curso-id');mostrarDetalhesCurso(cursoId,window.cursosData)})});aplicarFallbackMidia();aplicarFallbackIcones()}
+    function configurarFiltros(cursos){document.querySelectorAll('input[name="categoria"]').forEach(radio=>{radio.addEventListener('change',function(){const categoria=this.id;filtrarCursos(categoria,cursos);atualizarDescricao(categoria)})});document.getElementById('btn-todos').addEventListener('click',function(){mostrarTodos(cursos)});document.getElementById('categoria-descricao').textContent=''}
+    function filtrarCursos(categoria,cursos){const cursosFiltrados=cursos.filter(curso=>curso.categoria===categoria);exibirCursos(cursosFiltrados)}
+    function mostrarDetalhesCurso(cursoId,cursos){const curso=cursos.find(c=>c.id==cursoId);const detalhesDiv=document.getElementById('curso-detalhes');if(!curso)return;const isInativo=curso.status==='Inativo';const descModalidade=getCategoriaDescricao(curso.categoria);const media=curso.imagem&&curso.imagem!=='#'?`<img class="detalhe-media" data-cat="${curso.categoria}" src="${curso.imagem}" alt="${curso.nome}">`:`<div class="curso-img"><i class="bi ${iconesCategorias[curso.categoria]}"></i></div>`;const docBtns=`${curso.linkPPC&&curso.linkPPC!=='#'?`<a href="${curso.linkPPC}" class="btn btn-outline-success me-2" target="_blank"><i class="bi bi-download me-1"></i>PPC</a>`:''}${curso.linkCurso&&curso.linkCurso!=='#'?`<a href="${curso.linkCurso}" class="btn btn-outline-primary" target="_blank"><i class="bi bi-link-45deg me-1"></i>Página do curso</a>`:''}`;detalhesDiv.innerHTML=`<div class="row"><div class="col-md-8">${media}<h3 class="mb-3">${curso.nome}</h3><p class="lead">${curso.descricao}</p><h5 class="mt-4">Informações do curso</h5><div class="curso-info"><div class="row"><div class="col-md-6"><p><strong>Carga horária:</strong> ${curso.cargaHoraria}</p><p><strong>Vagas:</strong> ${curso.vagas}</p><p><strong>Turno:</strong> ${curso.turno}</p></div><div class="col-md-6"><p><strong>Duração:</strong> ${curso.duracao}</p><p><strong>Categoria:</strong> ${nomesCategorias[curso.categoria]}</p><p class="text-muted"><strong>Descrição da modalidade:</strong> ${descModalidade}</p><p><strong>Status:</strong> <span class="badge ${isInativo?'bg-secondary':'bg-success'}">${curso.status}</span></p></div></div></div>${docBtns?`<h5 class="mt-4">Documentação</h5>${docBtns}`:''}</div><div class="col-md-4"><div class="card"><div class="card-header ${isInativo?'bg-secondary':'bg-success'} text-white"><h5 class="mb-0">Coordenador</h5></div><div class="card-body"><p class="mb-2"><strong>${curso.coordenador}</strong></p><p class="mb-2"><i class="bi bi-envelope me-2"></i> ${curso.email}</p>${!isInativo?`<button class="btn ${isInativo?'btn-secondary':'btn-verde'} w-100 mt-3">Entrar em contato</button>`:''}</div></div>${!isInativo?`<div class="card mt-3"><div class="card-header bg-success text-white"><h5 class="mb-0">Inscreva-se</h5></div><div class="card-body"><p>Interessado neste curso?</p><a href="${CONFIG.proselUrl}" class="btn btn-outline-success w-100" target="_blank">Mais informações</a><a href="${CONFIG.proselUrl}" class="btn btn-estudar-ifpa w-100 mt-2" target="_blank">Processo seletivo</a></div></div>`:''}</div></div><button class="btn btn-secondary mt-3" onclick="fecharDetalhes()">Voltar para a lista</button>`;detalhesDiv.style.display='block';detalhesDiv.classList.add('fade-in');detalhesDiv.scrollIntoView({behavior:'smooth'});aplicarFallbackDetalhe()}
+    function fecharDetalhes(){document.getElementById('curso-detalhes').style.display='none'}
+    document.addEventListener('DOMContentLoaded',carregarCursos);
+    function atualizarContagens(cursos){categoriasCount={integrado:0,subsequente:0,graduacao:0,pos:0,fic:0};cursos.forEach(c=>{if(categoriasCount[c.categoria]!=null){categoriasCount[c.categoria]++}})}
+    function updateCategoriaLabels(){document.getElementById('count-integrado').textContent=categoriasCount.integrado;document.getElementById('count-subsequente').textContent=categoriasCount.subsequente;document.getElementById('count-graduacao').textContent=categoriasCount.graduacao;document.getElementById('count-pos').textContent=categoriasCount.pos;document.getElementById('count-fic').textContent=categoriasCount.fic}
+    function getCategoriaDescricao(cat){const map={integrado:'Cursos técnicos integrados ao Ensino Médio para estudantes que já concluíram o Ensino Fundamental ou equivalente.',subsequente:'Cursos técnicos para quem concluiu o Ensino Médio, com formação profissional específica. Para ingresso, basta apresentar histórico escolar.',graduacao:'Cursos superiores de graduação com formação acadêmica e profissional, ingresso via Processo Seletivo, com apresentação de nota do Enem.',pos:'Cursos de pós-graduação para aprofundamento e especialização.',fic:'Cursos de Formação Inicial e Continuada, de curta duração, voltados à qualificação profissional.'};return map[cat]||''}
+    function atualizarDescricao(categoria){document.getElementById('categoria-descricao').textContent=getCategoriaDescricao(categoria)}
+    function getCategoriaEmoji(cat){const map={integrado:'💻',subsequente:'⚙️',graduacao:'🎓',pos:'📈',fic:'🛠️'};return map[cat]||'📚'}
+    function aplicarFallbackMidia(){document.querySelectorAll('img.curso-media').forEach(img=>{img.onerror=()=>{const cat=img.getAttribute('data-cat');const fallback=document.createElement('div');fallback.className='curso-img';fallback.innerHTML=`${getCategoriaEmoji(cat)}`;img.replaceWith(fallback)}})}
+    function aplicarFallbackDetalhe(){document.querySelectorAll('img.detalhe-media').forEach(img=>{img.onerror=()=>{const cat=img.getAttribute('data-cat');const fallback=document.createElement('div');fallback.className='curso-img';fallback.innerHTML=`${getCategoriaEmoji(cat)}`;img.replaceWith(fallback)}})}
+    function aplicarFallbackIcones(){document.querySelectorAll('.curso-img i.bi').forEach(i=>{const before=window.getComputedStyle(i,'::before').getPropertyValue('content');if(!before||before==='none' || before==='normal'){const p=i.parentElement;const card=p.closest('.curso-card-container');const cat=(card&&card.getAttribute('data-categoria'))||'fic';p.innerHTML=getCategoriaEmoji(cat)}})}
+    function mostrarTodos(cursos){document.querySelectorAll('input[name="categoria"]').forEach(r=>r.checked=false);document.getElementById('categoria-descricao').textContent='';exibirCursos(cursos)}
+  </script>
+</body>
+</html>
