@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
-  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>IFPA Guia de Cursos</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
@@ -17,6 +17,8 @@
     .wizard-card:hover{background:rgba(255,255,255,.25);border-color:rgba(255,255,255,.4)}
     .btn-wizard{background:rgba(255,255,255,.25);border:2px solid rgba(255,255,255,.4);color:#fff;padding:.8rem 1.5rem;border-radius:30px;transition:.3s;font-weight:600}
     .btn-wizard-primary{background:linear-gradient(135deg,var(--laranja),#ff9100);border:none}
+    .wizard-header{display:flex;align-items:center;gap:12px;justify-content:flex-start}
+    .wizard-header img{height:48px;max-width:180px;object-fit:contain}
     .curso-card{transition:transform .3s ease,box-shadow .3s ease;border:none;border-top:4px solid var(--verde-principal);margin-bottom:1rem;height:100%}
     .curso-card:hover{transform:translateY(-3px);box-shadow:0 10px 20px rgba(0,0,0,.1)}
     .curso-card.inativo{opacity:.75;border-top-color:#6c757d}
@@ -29,17 +31,27 @@
     .curso-img i{font-size:3rem;color:var(--verde-principal)}
     .detalhe-media{width:100%;height:180px;object-fit:cover;border-radius:8px;margin-bottom:1rem}
     .loading{text-align:center;padding:2rem;color:var(--verde-principal)}
-    @media (max-width:768px){.wizard-container{padding:1rem}.wizard-card{padding:.8rem}}
+    @media (max-width:768px){.wizard-container{padding:1rem}.wizard-card{padding:.8rem}.wizard-header img{height:40px}}
   </style>
+  <script>
+    function cap(s){return s?s.charAt(0).toUpperCase()+s.slice(1):''}
+    function sanitizeCampusParam(v){return (v||'').toLowerCase().replace(/[^a-z0-9-]/g,'')}
+    function formatCampusDisplay(raw,campusParam){
+      if(raw){
+        var m=raw.match(/IFPA\s*(?:Campus|campus)\s*(.+)/i);var name=m?m[1].trim():raw.trim();return 'IFPA campus '+name.toUpperCase()
+      }
+      var sub=campusParam||'ifpa';return 'IFPA campus '+sub.toUpperCase()
+    }
+    function datasetUrl(campusParam){var cp=sanitizeCampusParam(campusParam);var use=cp||'ifpa';return 'https://osnisanches.github.io/ifcode/cursos/'+use+'.json'}
+  </script>
 </head>
 <body>
   <div class="container">
     <div class="wizard-container compacto">
       <div id="step-0" class="wizard-step active">
-        <div class="text-center py-3">
-          <div class="wizard-icon"><i class="bi bi-compass" style="font-size:2rem"></i></div>
-          <div class="d-flex align-items-center justify-content-center mb-2">
-            <img id="wizard-ifpa-logo" alt="IFPA" style="height:26px;margin-right:.5rem;vertical-align:middle">
+        <div class="py-3">
+          <div class="wizard-header">
+            <img id="wizard-logoacha" src="https://osnisanches.github.io/ifcode/logoacha.png" alt="IFPA">
             <h4 id="wizard-intro-title" class="mb-0"></h4>
           </div>
           <p class="mb-3 opacity-75">Encontre a formação perfeita para seu futuro!</p>
@@ -129,35 +141,14 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script>
-    function cap(s){return s?s.charAt(0).toUpperCase()+s.slice(1):''}
-    function extractCidade(campusNome){const p='IFPA Campus ';return campusNome&&campusNome.startsWith(p)?campusNome.slice(p.length):campusNome||''}
-    const campusParam=(new URLSearchParams(window.location.search).get('campus')||'').toLowerCase().replace(/[^a-z0-9-]/g,'')
-    const campusHost=campusParam?`${campusParam}.ifpa.edu.br`:'ifpa.edu.br'
-    function defaultCampusName(host){
-      if(host==='ifpa.edu.br')return 'IFPA'
-      const sub=host.split('.')[0];return `IFPA Campus ${cap(sub)}`
-    }
-    document.getElementById('wizard-ifpa-logo').src=`https://${campusHost}/images/ifpa-teste4.png`
-
-    const CONFIG={campus:campusParam,jsonUrl:`https://${campusHost}/images/cursos.txt`,proselUrl:'https://prosel.ifpa.edu.br'}
+    const campusParam=sanitizeCampusParam(new URLSearchParams(window.location.search).get('campus')||'')
+    const DATA_URL=datasetUrl(campusParam)
+    const CONFIG={campus:campusParam,proselUrl:'https://prosel.ifpa.edu.br'}
     let wizardData={escolaridade:'',enem:''}
     let categoriasCount={integrado:0,subsequente:0,graduacao:0,pos:0,fic:0}
 
-    function nextStep(step){
-      document.querySelectorAll('.wizard-step').forEach(s=>s.classList.remove('active'))
-      const el=document.getElementById(`step-${step}`)
-      if(el)el.classList.add('active')
-      const wc=document.querySelector('.wizard-container');if(wc){wc.classList.remove('compacto')}
-      const brandFooter=document.getElementById('app-footer-brand')
-      if(brandFooter&&step!==0){
-        brandFooter.classList.remove('d-none')
-        brandFooter.textContent=`Guia de Cursos do IFPA. Criado em 2025 no ${window.campusNome||defaultCampusName(campusHost)}.`
-      }
-    }
-    function selectEscolaridade(escolaridade){
-      wizardData.escolaridade=escolaridade
-      if(escolaridade==='medio-concluindo'||escolaridade==='medio-concluido'){nextStep(2)}else{showResult()}
-    }
+    function nextStep(step){document.querySelectorAll('.wizard-step').forEach(s=>s.classList.remove('active'));const el=document.getElementById('step-'+step);if(el)el.classList.add('active');const wc=document.querySelector('.wizard-container');if(wc){wc.classList.remove('compacto')}const brandFooter=document.getElementById('app-footer-brand');if(brandFooter&&step!==0){brandFooter.classList.remove('d-none');brandFooter.textContent='Guia de Cursos do IFPA. Criado em 2025 no '+(window.campusNomeDisplay||formatCampusDisplay(null,campusParam))+'.'}}
+    function selectEscolaridade(escolaridade){wizardData.escolaridade=escolaridade;if(escolaridade==='medio-concluindo'||escolaridade==='medio-concluido'){nextStep(2)}else{showResult()}}
     function selectEnem(resposta){wizardData.enem=resposta;showResult()}
     function scrollToCursos(){document.getElementById('cursos-section').scrollIntoView({behavior:'smooth',block:'start'})}
     function restartWizard(){wizardData={escolaridade:'',enem:''};nextStep(0)}
@@ -165,132 +156,35 @@
     const iconesCategorias={integrado:'bi-laptop',subsequente:'bi-gear-fill',graduacao:'bi-award-fill',pos:'bi-graph-up',fic:'bi-tools'}
     const nomesCategorias={integrado:'Integrado',subsequente:'Subsequente',graduacao:'Graduação',pos:'Pós-Graduação',fic:'FIC'}
 
-    function showResult(){
-      const cid=extractCidade(window.campusNome||defaultCampusName(campusHost))
-      const messages={
-        'fundamental-incompleto':{message:`O ${window.campusNome||defaultCampusName(campusHost)} oferta cursos FIC para quem ainda não concluiu o Ensino Fundamental.`,categoria:'fic',count:categoriasCount.fic},
-        'fundamental-completo':{message:'Que tal fazer curso Técnico Integrado ao Ensino Médio?',categoria:'integrado',count:categoriasCount.integrado},
-        '9-ano':{message:'É o seu momento de começar no IFPA com o Ensino Médio Integrado!',categoria:'integrado',count:categoriasCount.integrado},
-        'medio-cursando':{message:'Tem um curso FIC esperando por você!',categoria:'fic',count:categoriasCount.fic},
-        'medio-concluindo':{message:wizardData.enem==='sim'?'Tá na hora de escolher o teu futuro em um dos cursos de Graduação!':'Para cursos de Graduação é necessário o ENEM. Enquanto isso, você pode fazer um curso Técnico Subsequente!',categoria:wizardData.enem==='sim'?'graduacao':'subsequente',count:wizardData.enem==='sim'?categoriasCount.graduacao:categoriasCount.subsequente},
-        'medio-concluido':{message:wizardData.enem==='sim'?'Tá na hora de escolher o teu futuro em um dos cursos Subsequentes ou de Graduação!':'Para cursos de Graduação é necessário o ENEM. Enquanto isso, você pode fazer um curso Técnico Subsequente!',categoria:wizardData.enem==='sim'?'subsequente,graduacao':'subsequente',count:wizardData.enem==='sim'?categoriasCount.subsequente+categoriasCount.graduacao:categoriasCount.subsequente},
-        'superior':{message:`O ${window.campusNome||defaultCampusName(campusHost)} tem uma pós esperando por você!`,categoria:'pos',count:categoriasCount.pos}
-      }
-      const result=messages[wizardData.escolaridade]
-      const countText=result.count>1?`${result.count} opções disponíveis${cid?` em ${cid}`:''}.`:`${result.count} opção disponível${cid?` em ${cid}`:''}.`
-      document.getElementById('result-message').innerHTML=`<p class="mb-1">${result.message}</p><p class="mb-0 fw-bold">${countText}</p>`
-      if(result.categoria.includes(',')){document.querySelectorAll('.categoria-btn').forEach(btn=>btn.classList.remove('active'))}
-      else{const radioBtn=document.getElementById(result.categoria);if(radioBtn){radioBtn.checked=true;filtrarCursos(result.categoria,window.cursosData||[])}}
-      nextStep(3)
-    }
+    function showResult(){const cid=(window.campusNomeDisplay||'').replace(/^IFPA campus\s*/i,'');const messages={
+      'fundamental-incompleto':{message:'O '+(window.campusNomeDisplay||formatCampusDisplay(null,campusParam))+' oferta cursos FIC para quem ainda não concluiu o Ensino Fundamental.',categoria:'fic',count:categoriasCount.fic},
+      'fundamental-completo':{message:'Que tal fazer curso Técnico Integrado ao Ensino Médio?',categoria:'integrado',count:categoriasCount.integrado},
+      '9-ano':{message:'É o seu momento de começar no IFPA com o Ensino Médio Integrado!',categoria:'integrado',count:categoriasCount.integrado},
+      'medio-cursando':{message:'Tem um curso FIC esperando por você!',categoria:'fic',count:categoriasCount.fic},
+      'medio-concluindo':{message:wizardData.enem==='sim'?'Tá na hora de escolher o teu futuro em um dos cursos de Graduação!':'Para cursos de Graduação é necessário o ENEM. Enquanto isso, você pode fazer um curso Técnico Subsequente!',categoria:wizardData.enem==='sim'?'graduacao':'subsequente',count:wizardData.enem==='sim'?categoriasCount.graduacao:categoriasCount.subsequente},
+      'medio-concluido':{message:wizardData.enem==='sim'?'Tá na hora de escolher o teu futuro em um dos cursos Subsequentes ou de Graduação!':'Para cursos de Graduação é necessário o ENEM. Enquanto isso, você pode fazer um curso Técnico Subsequente!',categoria:wizardData.enem==='sim'?'subsequente,graduacao':'subsequente',count:wizardData.enem==='sim'?categoriasCount.subsequente+categoriasCount.graduacao:categoriasCount.subsequente},
+      'superior':{message:'O '+(window.campusNomeDisplay||formatCampusDisplay(null,campusParam))+' tem uma pós esperando por você!',categoria:'pos',count:categoriasCount.pos}
+    };const result=messages[wizardData.escolaridade];const countText=result.count>1?result.count+' opções disponíveis'+(cid?' em '+cid:'')+'.':result.count+' opção disponível'+(cid?' em '+cid:'')+'.';document.getElementById('result-message').innerHTML='<p class="mb-1">'+result.message+'</p><p class="mb-0 fw-bold">'+countText+'</p>';if(result.categoria.includes(',')){document.querySelectorAll('.categoria-btn').forEach(btn=>btn.classList.remove('active'))}else{const radioBtn=document.getElementById(result.categoria);if(radioBtn){radioBtn.checked=true;filtrarCursos(result.categoria,window.cursosData||[])}}nextStep(3)}
 
-    async function carregarCursos(){
-      try{
-        const response=await fetch(CONFIG.jsonUrl,{cache:'no-store',mode:'cors'})
-        if(!response.ok)throw new Error('http '+response.status)
-        const textData=await response.text()
-        const data=JSON.parse(textData)
-        window.cursosData=Array.isArray(data.cursos)?data.cursos:Array.isArray(data)?data:[]
-        window.campusNome=data.campus||defaultCampusName(campusHost)
-        document.getElementById('wizard-intro-title').textContent=`Descubra seu curso ideal no ${window.campusNome}`
-        atualizarContagens(window.cursosData)
-        updateCategoriaLabels()
-        configurarFiltros(window.cursosData)
-        mostrarTodos(window.cursosData)
-      }catch(error){
-        document.getElementById('cursos-container').innerHTML='<div class="col-12 text-center text-danger"><i class="bi bi-exclamation-triangle-fill display-4"></i><p class="mt-3">Banco de cursos indisponível no momento. Tente novamente em instantes.</p></div>'
-        document.getElementById('wizard-intro-title').textContent=`Descubra seu curso ideal no ${defaultCampusName(campusHost)}`
-      }
-    }
+    async function carregarCursos(){try{const res=await fetch(DATA_URL,{cache:'no-store'});if(!res.ok)throw new Error('http '+res.status);const data=await res.json();window.cursosData=Array.isArray(data.cursos)?data.cursos:Array.isArray(data)?data:[];window.campusNomeDisplay=formatCampusDisplay(data.campus,campusParam);document.getElementById('wizard-intro-title').innerHTML='Descubra seu curso ideal no<br>'+window.campusNomeDisplay;atualizarContagens(window.cursosData);updateCategoriaLabels();configurarFiltros(window.cursosData);mostrarTodos(window.cursosData)}catch(error){document.getElementById('cursos-container').innerHTML='<div class="col-12 text-center text-danger"><i class="bi bi-exclamation-triangle-fill display-4"></i><p class="mt-3">Banco de cursos indisponível no momento. Tente novamente em instantes.</p></div>';document.getElementById('wizard-intro-title').innerHTML='Descubra seu curso ideal no<br>'+formatCampusDisplay(null,campusParam)}}
 
-    function exibirCursos(cursos){
-      const container=document.getElementById('cursos-container')
-      const detalhesDiv=document.getElementById('curso-detalhes')
-      if(detalhesDiv){detalhesDiv.style.display='none';detalhesDiv.innerHTML=''}
-      container.innerHTML=''
-      if(!cursos.length){container.innerHTML='<div class="col-12 text-center"><p>Nenhum curso encontrado para esta categoria.</p></div>';return}
-      cursos.forEach(curso=>{
-        const isInativo=curso.status==='Inativo'||curso.status==='Sem oferta'
-        const cardClass=isInativo?'curso-card inativo':'curso-card'
-        const media=curso.imagem&&curso.imagem!=='#'?`<img class="curso-media" data-cat="${curso.categoria}" src="${curso.imagem}" alt="${curso.nome}" style="width:100%;height:120px;object-fit:cover;border-radius:8px">`:`<div class="curso-img"><i class="bi ${iconesCategorias[curso.categoria]}"></i></div>`
-        const ppcBtn=curso.linkPPC&&curso.linkPPC!=='#'?`<a href="${curso.linkPPC}" class="btn btn-outline-${isInativo?'secondary':'success'} btn-sm" target="_blank"><i class="bi bi-file-text me-1"></i> PPC</a>`:''
-        const pageBtn=curso.linkCurso&&curso.linkCurso!=='#'?`<a href="${curso.linkCurso}" class="btn btn-outline-primary btn-sm" target="_blank"><i class="bi bi-link-45deg me-1"></i> Página do curso</a>`:''
-        const cardHTML=`<div class="col-lg-4 col-md-6 curso-card-container" data-categoria="${curso.categoria}" data-curso-id="${curso.id}">
-          <div class="card ${cardClass}">
-            <div class="card-header d-flex justify-content-between align-items-center"><span>${nomesCategorias[curso.categoria]}</span><span class="badge ${isInativo?'bg-secondary':'bg-light text-dark'}">${curso.status}</span></div>
-            <div class="card-body">${media}<h5 class="card-title mt-2">${curso.nome}</h5><p class="card-text">${curso.descricao||''}</p>
-              <div class="d-flex justify-content-between mb-2"><small><i class="bi bi-clock me-1"></i> ${curso.cargaHoraria||''}</small><small><i class="bi bi-person me-1"></i> ${curso.vagas!=null?curso.vagas:'-'} vagas</small></div>
-              <div class="d-grid gap-2">
-                <button class="btn ${isInativo?'btn-secondary':'btn-success'} btn-detalhes" data-curso-id="${curso.id}">Ver detalhes</button>
-                ${ppcBtn}${pageBtn}
-              </div>
-            </div>
-          </div>
-        </div>`
-        container.insertAdjacentHTML('beforeend',cardHTML)
-      })
-      container.querySelectorAll('.btn-detalhes').forEach(btn=>{
-        btn.addEventListener('click',()=>{mostrarDetalhesCurso(btn.getAttribute('data-curso-id'),cursos)})
-      })
-      aplicarFallbackMidia();aplicarFallbackIcones()
-    }
+    function exibirCursos(cursos){const container=document.getElementById('cursos-container');const detalhesDiv=document.getElementById('curso-detalhes');if(detalhesDiv){detalhesDiv.style.display='none';detalhesDiv.innerHTML=''}container.innerHTML='';if(!cursos.length){container.innerHTML='<div class="col-12 text-center"><p>Nenhum curso encontrado para esta categoria.</p></div>';return}cursos.forEach(curso=>{const isInativo=curso.status==='Inativo'||curso.status==='Sem oferta';const cardClass=isInativo?'curso-card inativo':'curso-card';const media=curso.imagem&&curso.imagem!=='#'?'<img class="curso-media" data-cat="'+curso.categoria+'" src="'+curso.imagem+'" alt="'+curso.nome+'" style="width:100%;height:120px;object-fit:cover;border-radius:8px">':'<div class="curso-img"><i class="bi '+iconesCategorias[curso.categoria]+'"></i></div>';const ppcBtn=curso.linkPPC&&curso.linkPPC!=='#'?'<a href="'+curso.linkPPC+'" class="btn btn-outline-'+(isInativo?'secondary':'success')+' btn-sm" target="_blank"><i class="bi bi-file-text me-1"></i> PPC</a>':'';const pageBtn=curso.linkCurso&&curso.linkCurso!=='#'?'<a href="'+curso.linkCurso+'" class="btn btn-outline-primary btn-sm" target="_blank"><i class="bi bi-link-45deg me-1"></i> Página do curso</a>':'';const cardHTML='<div class="col-lg-4 col-md-6 curso-card-container" data-categoria="'+curso.categoria+'" data-curso-id="'+curso.id+'"><div class="card '+cardClass+'"><div class="card-header d-flex justify-content-between align-items-center"><span>'+nomesCategorias[curso.categoria]+'</span><span class="badge '+(isInativo?'bg-secondary':'bg-light text-dark')+'">'+(curso.status||'')+'</span></div><div class="card-body">'+media+'<h5 class="card-title mt-2">'+curso.nome+'</h5><p class="card-text">'+(curso.descricao||'')+'</p><div class="d-flex justify-content-between mb-2"><small><i class="bi bi-clock me-1"></i> '+(curso.cargaHoraria||'')+'</small><small><i class="bi bi-person me-1"></i> '+(curso.vagas!=null?curso.vagas:'-')+' vagas</small></div><div class="d-grid gap-2"><button class="btn '+(isInativo?'btn-secondary':'btn-success')+' btn-detalhes" data-curso-id="'+curso.id+'">Ver detalhes</button>'+ppcBtn+pageBtn+'</div></div></div></div>';container.insertAdjacentHTML('beforeend',cardHTML)});container.querySelectorAll('.btn-detalhes').forEach(btn=>{btn.addEventListener('click',()=>{mostrarDetalhesCurso(btn.getAttribute('data-curso-id'),cursos)})});aplicarFallbackMidia();aplicarFallbackIcones()}
 
-    function configurarFiltros(cursos){
-      document.querySelectorAll('input[name="categoria"]').forEach(radio=>{
-        radio.addEventListener('change',function(){const categoria=this.id;filtrarCursos(categoria,cursos);atualizarDescricao(categoria)})
-      })
-      document.getElementById('btn-todos').addEventListener('click',function(){mostrarTodos(cursos)})
-      document.getElementById('categoria-descricao').textContent=''
-      document.getElementById('titulo-cursos').textContent=`Nossos Cursos`
-    }
+    function configurarFiltros(cursos){document.querySelectorAll('input[name="categoria"]').forEach(radio=>{radio.addEventListener('change',function(){const categoria=this.id;filtrarCursos(categoria,cursos);atualizarDescricao(categoria)})});document.getElementById('btn-todos').addEventListener('click',function(){mostrarTodos(cursos)});document.getElementById('categoria-descricao').textContent='';document.getElementById('titulo-cursos').textContent='Nossos Cursos'}
     function filtrarCursos(categoria,cursos){const cursosFiltrados=cursos.filter(curso=>curso.categoria===categoria);exibirCursos(cursosFiltrados)}
     function mostrarTodos(cursos){document.querySelectorAll('input[name="categoria"]').forEach(r=>r.checked=false);document.getElementById('categoria-descricao').textContent='';exibirCursos(cursos)}
 
-    function getCategoriaDescricao(cat){
-      const map={
-        integrado:'Cursos técnicos integrados ao Ensino Médio para estudantes que já concluíram o Ensino Fundamental ou equivalente.',
-        subsequente:'Cursos técnicos para quem concluiu o Ensino Médio, com formação profissional específica.',
-        graduacao:'Cursos superiores de graduação com formação acadêmica e profissional.',
-        pos:'Cursos de pós-graduação para aprofundamento e especialização.',
-        fic:'Cursos de Formação Inicial e Continuada, de curta duração.'
-      };return map[cat]||''
-    }
+    function getCategoriaDescricao(cat){const map={integrado:'Cursos técnicos integrados ao Ensino Médio para estudantes que já concluíram o Ensino Fundamental ou equivalente.',subsequente:'Cursos técnicos para quem concluiu o Ensino Médio, com formação profissional específica.',graduacao:'Cursos superiores de graduação com formação acadêmica e profissional.',pos:'Cursos de pós-graduação para aprofundamento e especialização.',fic:'Cursos de Formação Inicial e Continuada, de curta duração.'};return map[cat]||''}
     function atualizarDescricao(categoria){document.getElementById('categoria-descricao').textContent=getCategoriaDescricao(categoria)}
     function getCategoriaEmoji(cat){const map={integrado:'💻',subsequente:'⚙️',graduacao:'🎓',pos:'📈',fic:'🛠️'};return map[cat]||'📚'}
-    function aplicarFallbackMidia(){document.querySelectorAll('img.curso-media').forEach(img=>{img.onerror=()=>{const cat=img.getAttribute('data-cat');const fallback=document.createElement('div');fallback.className='curso-img';fallback.innerHTML=`${getCategoriaEmoji(cat)}`;img.replaceWith(fallback)}})}
-    function aplicarFallbackDetalhe(){document.querySelectorAll('img.detalhe-media').forEach(img=>{img.onerror=()=>{const cat=img.getAttribute('data-cat');const fallback=document.createElement('div');fallback.className='curso-img';fallback.innerHTML=`${getCategoriaEmoji(cat)}`;img.replaceWith(fallback)}})}
+    function aplicarFallbackMidia(){document.querySelectorAll('img.curso-media').forEach(img=>{img.onerror=()=>{const cat=img.getAttribute('data-cat');const fallback=document.createElement('div');fallback.className='curso-img';fallback.innerHTML=getCategoriaEmoji(cat);img.replaceWith(fallback)}})}
+    function aplicarFallbackDetalhe(){document.querySelectorAll('img.detalhe-media').forEach(img=>{img.onerror=()=>{const cat=img.getAttribute('data-cat');const fallback=document.createElement('div');fallback.className='curso-img';fallback.innerHTML=getCategoriaEmoji(cat);img.replaceWith(fallback)}})}
     function aplicarFallbackIcones(){document.querySelectorAll('.curso-img i.bi').forEach(i=>{const before=window.getComputedStyle(i,'::before').getPropertyValue('content');if(!before||before==='none'||before==='normal'){const p=i.parentElement;const card=p.closest('.curso-card-container');const cat=(card&&card.getAttribute('data-categoria'))||'fic';p.innerHTML=getCategoriaEmoji(cat)}})}
 
-    function mostrarDetalhesCurso(cursoId,cursos){
-      const curso=cursos.find(c=>String(c.id)===String(cursoId));const detalhesDiv=document.getElementById('curso-detalhes');if(!curso)return
-      const isInativo=curso.status==='Inativo'||curso.status==='Sem oferta'
-      const descModalidade=getCategoriaDescricao(curso.categoria)
-      const media=curso.imagem&&curso.imagem!=='#'?`<img class="detalhe-media" data-cat="${curso.categoria}" src="${curso.imagem}" alt="${curso.nome}">`:`<div class="curso-img"><i class="bi ${iconesCategorias[curso.categoria]}"></i></div>`
-      const docBtns=`${curso.linkPPC&&curso.linkPPC!=='#'?`<a href="${curso.linkPPC}" class="btn btn-outline-success me-2" target="_blank"><i class="bi bi-download me-1"></i>PPC</a>`:''}${curso.linkCurso&&curso.linkCurso!=='#'?`<a href="${curso.linkCurso}" class="btn btn-outline-primary" target="_blank"><i class="bi bi-link-45deg me-1"></i>Página do curso</a>`:''}`
-      detalhesDiv.innerHTML=`<div class="row">
-        <div class="col-md-8">${media}<h3 class="mb-2">${curso.nome}</h3><p class="lead">${curso.descricao||''}</p>
-          <h5 class="mt-3">Informações do curso</h5>
-          <div class="curso-info"><div class="row">
-            <div class="col-md-6"><p><strong>Carga horária:</strong> ${curso.cargaHoraria||''}</p><p><strong>Vagas:</strong> ${curso.vagas!=null?curso.vagas:'-'}</p><p><strong>Turno:</strong> ${curso.turno||''}</p></div>
-            <div class="col-md-6"><p><strong>Duração:</strong> ${curso.duracao||''}</p><p><strong>Categoria:</strong> ${nomesCategorias[curso.categoria]}</p><p class="text-muted"><strong>Descrição da modalidade:</strong> ${descModalidade}</p><p><strong>Status:</strong> <span class="badge ${isInativo?'bg-secondary':'bg-success'}">${curso.status}</span></p></div>
-          </div></div>
-          ${docBtns?`<h5 class="mt-3">Documentação</h5>${docBtns}`:''}
-        </div>
-        <div class="col-md-4"><div class="card">
-          <div class="card-header ${isInativo?'bg-secondary':'bg-success'} text-white"><h5 class="mb-0">Coordenador</h5></div>
-          <div class="card-body"><p class="mb-2"><strong>${curso.coordenador||''}</strong></p><p class="mb-2"><i class="bi bi-envelope me-2"></i> ${curso.email||''}</p>${!isInativo?`<a href="${CONFIG.proselUrl}" class="btn btn-success w-100 mt-2" target="_blank">Processo seletivo</a>`:''}</div>
-        </div></div>
-      </div>
-      <button class="btn btn-secondary mt-3" onclick="fecharDetalhes()">Voltar para a lista</button>`
-      detalhesDiv.style.display='block'
-      aplicarFallbackDetalhe()
-    }
+    function mostrarDetalhesCurso(cursoId,cursos){const curso=cursos.find(c=>String(c.id)===String(cursoId));const detalhesDiv=document.getElementById('curso-detalhes');if(!curso)return;const isInativo=curso.status==='Inativo'||curso.status==='Sem oferta';const descModalidade=getCategoriaDescricao(curso.categoria);const media=curso.imagem&&curso.imagem!=='#'?'<img class="detalhe-media" data-cat="'+curso.categoria+'" src="'+curso.imagem+'" alt="'+curso.nome+'">':'<div class="curso-img"><i class="bi '+iconesCategorias[curso.categoria]+'"></i></div>';const docBtns=(curso.linkPPC&&curso.linkPPC!=='#'?'<a href="'+curso.linkPPC+'" class="btn btn-outline-success me-2" target="_blank"><i class="bi bi-download me-1"></i>PPC</a>':'')+(curso.linkCurso&&curso.linkCurso!=='#'?'<a href="'+curso.linkCurso+'" class="btn btn-outline-primary" target="_blank"><i class="bi bi-link-45deg me-1"></i>Página do curso</a>':'');detalhesDiv.innerHTML='<div class="row"><div class="col-md-8">'+media+'<h3 class="mb-2">'+curso.nome+'</h3><p class="lead">'+(curso.descricao||'')+'</p><h5 class="mt-3">Informações do curso</h5><div class="curso-info"><div class="row"><div class="col-md-6"><p><strong>Carga horária:</strong> '+(curso.cargaHoraria||'')+'</p><p><strong>Vagas:</strong> '+(curso.vagas!=null?curso.vagas:'-')+'</p><p><strong>Turno:</strong> '+(curso.turno||'')+'</p></div><div class="col-md-6"><p><strong>Duração:</strong> '+(curso.duracao||'')+'</p><p><strong>Categoria:</strong> '+nomesCategorias[curso.categoria]+'</p><p class="text-muted"><strong>Descrição da modalidade:</strong> '+descModalidade+'</p><p><strong>Status:</strong> <span class="badge '+(isInativo?'bg-secondary':'bg-success')+'">'+(curso.status||'')+'</span></p></div></div></div>'+(docBtns?'<h5 class="mt-3">Documentação</h5>'+docBtns:'')+'</div><div class="col-md-4"><div class="card"><div class="card-header '+(isInativo?'bg-secondary':'bg-success')+' text-white"><h5 class="mb-0">Coordenador</h5></div><div class="card-body"><p class="mb-2"><strong>'+(curso.coordenador||'')+'</strong></p><p class="mb-2"><i class="bi bi-envelope me-2"></i> '+(curso.email||'')+'</p>'+(!isInativo?'<a href="'+CONFIG.proselUrl+'" class="btn btn-success w-100 mt-2" target="_blank">Processo seletivo</a>':'')+'</div></div></div></div><button class="btn btn-secondary mt-3" onclick="fecharDetalhes()">Voltar para a lista</button>';detalhesDiv.style.display='block';aplicarFallbackDetalhe()}
     function fecharDetalhes(){document.getElementById('curso-detalhes').style.display='none'}
 
-    document.addEventListener('DOMContentLoaded',function(){
-      document.getElementById('wizard-intro-title').textContent=`Descubra seu curso ideal no ${defaultCampusName(campusHost)}`
-      carregarCursos()
-    })
+    document.addEventListener('DOMContentLoaded',function(){document.getElementById('wizard-intro-title').innerHTML='Descubra seu curso ideal no<br>'+formatCampusDisplay(null,campusParam);carregarCursos()})
     function atualizarContagens(cursos){categoriasCount={integrado:0,subsequente:0,graduacao:0,pos:0,fic:0};cursos.forEach(c=>{if(categoriasCount[c.categoria]!=null){categoriasCount[c.categoria]++}})}
     function updateCategoriaLabels(){document.getElementById('count-integrado').textContent=categoriasCount.integrado;document.getElementById('count-subsequente').textContent=categoriasCount.subsequente;document.getElementById('count-graduacao').textContent=categoriasCount.graduacao;document.getElementById('count-pos').textContent=categoriasCount.pos;document.getElementById('count-fic').textContent=categoriasCount.fic}
   </script>
