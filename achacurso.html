@@ -26,6 +26,8 @@
     .card-header{background-color:var(--verde-principal);color:#fff;font-weight:600}
     .categoria-btn{background:#fff;color:var(--verde-principal);border:2px solid var(--verde-principal);margin:.2rem}
     .categoria-btn:hover,.categoria-btn.active{background-color:var(--verde-principal);color:#fff;border-color:var(--verde-principal)}
+    input.btn-check:checked+label.categoria-btn{background-color:var(--verde-principal);color:#fff;border-color:var(--verde-principal)}
+    input.btn-check:checked+label.categoria-btn i{color:#fff}
     .curso-detalhes{display:none;background:#fff;border-radius:8px;box-shadow:0 5px 15px rgba(0,0,0,.1);padding:1.5rem;margin-top:1rem}
     .curso-info{background-color:var(--verde-claro);border-radius:8px;padding:1rem}
     .curso-img{height:120px;background-color:var(--verde-claro);display:flex;align-items:center;justify-content:center;border-radius:8px;margin-bottom:1rem}
@@ -36,6 +38,8 @@
     .curso-icon{width:56px;height:56px;object-fit:contain}
     .detalhe-icon{width:72px;height:72px;object-fit:contain}
     .loading{text-align:center;padding:2rem;color:var(--verde-principal)}
+    #step-0 .py-3{padding-top:.5rem;padding-bottom:.5rem}
+    #step-0 .btn-wizard{margin-bottom:0}
     @media (max-width:768px){.wizard-container{padding:1rem}.wizard-card{padding:.8rem;margin:.6rem 0}.wizard-header img{height:40px}.btn-wizard{margin-bottom:.5rem}.categoria-btn{margin:.3rem}}
   </style>
   <script>
@@ -115,7 +119,7 @@
 
     <div class="row mb-3" id="cursos-section">
       <div class="col-12">
-        <h3 class="mb-2" id="titulo-cursos">Nossos cursos</h3>
+        <h3 class="mb-2" id="titulo-cursos"></h3>
         <div class="d-flex flex-wrap align-items-center" id="filtro-categorias">
           <button id="btn-todos" class="btn categoria-btn" style="background-color:#f1f3f5;border-color:#adb5bd;color:#343a40;margin-right:.5rem">Todos os cursos</button>
           <input type="radio" class="btn-check" name="categoria" id="integrado" autocomplete="off" checked>
@@ -186,12 +190,12 @@
 
     function exibirCursos(cursos){const container=document.getElementById('cursos-container');const detalhesDiv=document.getElementById('curso-detalhes');if(detalhesDiv){detalhesDiv.style.display='none';detalhesDiv.innerHTML=''}container.innerHTML='';if(!cursos.length){container.innerHTML='<div class="col-12 text-center"><p>Nenhum curso encontrado para esta categoria.</p></div>';return}const ordenados=[...cursos].sort((a,b)=>{const ai=isInativoCurso(a),bi=isInativoCurso(b);if(ai===bi)return 0;return ai?1:-1});const html=ordenados.map(c=>buildCardHTML(c)).join('');container.innerHTML=html;container.querySelectorAll('.btn-detalhes').forEach(btn=>{btn.addEventListener('click',()=>{mostrarDetalhesCurso(btn.getAttribute('data-curso-id'),ordenados)})});aplicarFallbackMidia();aplicarFallbackIcones()}
 
-    function configurarFiltros(cursos){document.querySelectorAll('input[name="categoria"]').forEach(radio=>{radio.addEventListener('change',function(){const categoria=this.id;filtrarCursos(categoria,cursos);atualizarDescricao(categoria)})});document.getElementById('btn-todos').addEventListener('click',function(){mostrarTodos(cursos)});document.getElementById('categoria-descricao').textContent='';document.getElementById('titulo-cursos').textContent='Nossos cursos'}
+    function configurarFiltros(cursos){document.querySelectorAll('input[name="categoria"]').forEach(radio=>{radio.addEventListener('change',function(){const categoria=this.id;filtrarCursos(categoria,cursos);atualizarDescricao(categoria);document.getElementById('categoria-descricao').scrollIntoView({behavior:'smooth',block:'start'})})});document.getElementById('btn-todos').addEventListener('click',function(){mostrarTodos(cursos)});document.getElementById('categoria-descricao').textContent='';document.getElementById('titulo-cursos').textContent=''}
     function filtrarCursos(categoria,cursos){const cursosFiltrados=cursos.filter(curso=>curso.categoria===categoria);exibirCursos(cursosFiltrados)}
     function mostrarTodos(cursos){document.querySelectorAll('input[name="categoria"]').forEach(r=>r.checked=false);document.getElementById('categoria-descricao').textContent='';exibirCursos(cursos)}
 
     function getCategoriaDescricao(cat){const map={integrado:'Cursos técnicos integrados ao Ensino Médio para estudantes que já concluíram o Ensino Fundamental ou equivalente.',subsequente:'Cursos técnicos para quem concluiu o Ensino Médio, com formação profissional específica.',graduacao:'Cursos superiores de graduação com formação acadêmica e profissional.',pos:'Cursos de pós-graduação para aprofundamento e especialização.',fic:'Cursos de Formação Inicial e Continuada, de curta duração.'};return map[cat]||''}
-    function atualizarDescricao(categoria){document.getElementById('categoria-descricao').textContent=getCategoriaDescricao(categoria)}
+    function atualizarDescricao(categoria){var el=document.getElementById('categoria-descricao');var icon=iconesCategorias[categoria]||'bi-journal-text';el.innerHTML='<i class="bi '+icon+' me-2"></i>'+getCategoriaDescricao(categoria)}
     function getCategoriaEmoji(cat){const map={integrado:'💻',subsequente:'⚙️',graduacao:'🎓',pos:'📈',fic:'🛠️'};return map[cat]||'📚'}
     function aplicarFallbackMidia(){document.querySelectorAll('img.curso-media').forEach(img=>{img.onerror=()=>{const wrap=document.createElement('div');wrap.className='curso-img';const icon=document.createElement('img');icon.src='images/ifset.png';icon.alt='curso';icon.className='curso-icon';icon.style.width='56px';icon.style.height='56px';icon.style.objectFit='contain';wrap.appendChild(icon);img.replaceWith(wrap)}})}
     function aplicarFallbackDetalhe(){document.querySelectorAll('img.detalhe-media').forEach(img=>{img.onerror=()=>{const wrap=document.createElement('div');wrap.className='curso-img';const icon=document.createElement('img');icon.src='images/ifset.png';icon.alt='curso';icon.className='detalhe-icon';icon.style.width='72px';icon.style.height='72px';icon.style.objectFit='contain';wrap.appendChild(icon);img.replaceWith(wrap)}})}
