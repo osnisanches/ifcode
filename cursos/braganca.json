@@ -14,7 +14,7 @@
       "duracao": "3 anos",
       "coordenador": "Maria Eduarda Pereira",
       "email": "aquicultura.braganca@ifpa.edu.br",
-      "imagem": ""
+      "imagem": "images/geografia-01.png"
     },
     {
       "id": 103,
@@ -30,7 +30,7 @@
       "duracao": "3 anos",
       "coordenador": "Amiraldo César Alves de Aviz",
       "email": "edificacao.braganca@ifpa.edu.br",
-      "imagem": ""
+      "imagem": "images/edificacoes-integrado.png"
     },
     {
       "id": 106,
@@ -46,7 +46,7 @@
       "duracao": "3 anos",
       "coordenador": "Fernando José Rodrigues Lobato",
       "email": "informatica.braganca@ifpa.edu.br",
-      "imagem": ""
+      "imagem": "images/geografia-01.png"
     },
     {
       "id": 109,
@@ -62,7 +62,7 @@
       "duracao": "3 anos",
       "coordenador": "Francisca Socorro Peixoto",
       "email": "meioambiente.braganca@ifpa.edu.br",
-      "imagem": ""
+      "imagem": "images/geografia-01.png"
     },
     {
       "id": 107,
@@ -94,7 +94,7 @@
       "duracao": "2 anos",
       "coordenador": "Tiago Augusto Nascimento Rodrigues",
       "email": "agropecuaria.braganca@ifpa.edu.br",
-      "imagem": ""
+      "imagem": "images/geografia-01.png"
     },
     {
       "id": 203,
@@ -492,9 +492,9 @@
       "cargaHoraria": "",
       "turno": "",
       "duracao": "",
-      "coordenador": "Jeanfson Dutra de Oliveira",
-      "email": "jeanfson.oliveira@ifpa.edu.br",
-      "imagem": ""
+      "coordenador": "Coordenação de Ensino",
+      "email": "ensino.braganca@ifpa.edu.br",
+      "imagem": "images/geografia-01.png"
     },
     {
       "id": 207,
@@ -510,7 +510,7 @@
       "duracao": "",
       "coordenador": "Coordenação de Ensino",
       "email": "ensino.braganca@ifpa.edu.br",
-      "imagem": ""
+      "imagem": "images/geografia-01.png"
     },
     {
       "id": 110,
@@ -526,7 +526,7 @@
       "duracao": "",
       "coordenador": "Coordenação de Ensino",
       "email": "ensino.braganca@ifpa.edu.br",
-      "imagem": ""
+      "imagem": "images/geografia-01.png"
     }
   ],
   "campus": "IFPA Campus Bragança"
