@@ -14,7 +14,7 @@
       "duracao": "3 anos",
       "coordenador": "Maria Eduarda Pereira",
       "email": "aquicultura.braganca@ifpa.edu.br",
-      "imagem": "images/geografia-01.png"
+      "imagem": "images/aquicultura.jpg"
     },
     {
       "id": 103,
@@ -30,7 +30,7 @@
       "duracao": "3 anos",
       "coordenador": "Amiraldo César Alves de Aviz",
       "email": "edificacao.braganca@ifpa.edu.br",
-      "imagem": "images/edificacoes-int.jpg"
+      "imagem": "images/edificacoes.jpg"
     },
     {
       "id": 106,
@@ -94,7 +94,7 @@
       "duracao": "2 anos",
       "coordenador": "Tiago Augusto Nascimento Rodrigues",
       "email": "agropecuaria.braganca@ifpa.edu.br",
-      "imagem": "images/geografia-01.png"
+      "imagem": "images/agropecuaria2.jpg"
     },
     {
       "id": 203,
@@ -110,7 +110,7 @@
       "duracao": "2 anos",
       "coordenador": "Amiraldo César Alves de Aviz",
       "email": "edificacao.braganca@ifpa.edu.br",
-      "imagem": ""
+      "imagem": "images/edificacoes-int.jpg"
     },
     {
       "id": 104,
@@ -174,7 +174,7 @@
       "duracao": "4 anos",
       "coordenador": "Ludymylla Maria Gomes de Lucena",
       "email": "educampo.braganca@ifpa.edu.br",
-      "imagem": ""
+      "imagem": "images/educacaodocampo.jpg"
     },
     {
       "id": 304,
