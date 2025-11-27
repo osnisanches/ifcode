@@ -153,7 +153,7 @@
     let categoriasCount={integrado:0,subsequente:0,graduacao:0,pos:0,fic:0}
     function isInativoCurso(c){const s=(c&&c.status)||'';return s==='Inativo'||s==='Sem oferta'}
 
-    function nextStep(step){document.querySelectorAll('.wizard-step').forEach(s=>s.classList.remove('active'));const el=document.getElementById('step-'+step);if(el)el.classList.add('active');const wc=document.querySelector('.wizard-container');if(wc){wc.classList.remove('compacto')}const brandFooter=document.getElementById('app-footer-brand');if(brandFooter&&step!==0){brandFooter.classList.remove('d-none');brandFooter.textContent='Criado com <3 no IFPA campus Bragança em 2025'}}
+    function nextStep(step){document.querySelectorAll('.wizard-step').forEach(s=>s.classList.remove('active'));const el=document.getElementById('step-'+step);if(el)el.classList.add('active');const wc=document.querySelector('.wizard-container');if(wc){wc.classList.remove('compacto')}const brandFooter=document.getElementById('app-footer-brand');if(brandFooter&&step!==0){brandFooter.classList.remove('d-none');brandFooter.textContent='Criado com <3 em 2025 no IFPA campus Bragança'}}
     function selectEscolaridade(escolaridade){wizardData.escolaridade=escolaridade;if(escolaridade==='medio-concluindo'||escolaridade==='medio-concluido'){nextStep(2)}else{showResult()}}
     function selectEnem(resposta){wizardData.enem=resposta;showResult()}
     function scrollToCursos(){document.getElementById('cursos-section').scrollIntoView({behavior:'smooth',block:'start'})}
