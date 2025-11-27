@@ -29,7 +29,7 @@
     .curso-detalhes{display:none;background:#fff;border-radius:8px;box-shadow:0 5px 15px rgba(0,0,0,.1);padding:1.5rem;margin-top:1rem}
     .curso-info{background-color:var(--verde-claro);border-radius:8px;padding:1rem}
     .curso-img{height:120px;background-color:var(--verde-claro);display:flex;align-items:center;justify-content:center;border-radius:8px;margin-bottom:1rem}
-    .curso-media-wrap{width:100%;height:120px;border-radius:8px;overflow:hidden;background-color:var(--verde-claro)}
+    .curso-media-wrap{width:100%;height:auto;aspect-ratio:16/9;border-radius:8px;overflow:hidden;background-color:var(--verde-claro)}
     .curso-img i{font-size:3rem;color:var(--verde-principal)}
     .detalhe-media-wrap{width:100%;height:180px;border-radius:8px;overflow:hidden;background-color:var(--verde-claro);margin-bottom:1rem}
     .detalhe-media{width:100%;height:100%;object-fit:cover;object-position:center}
@@ -133,7 +133,7 @@
       </div>
     </div>
 
-    <div class="row" id="cursos-container">
+    <div class="row justify-content-center g-3" id="cursos-container">
       <div class="col-12 loading">
         <div class="spinner-border text-success" role="status"><span class="visually-hidden">Carregando cursos...</span></div>
         <p class="mt-2">Carregando cursos...</p>
@@ -167,7 +167,7 @@
     function buildMediaDetail(curso){if(hasImagem(curso)){return '<div class="detalhe-media-wrap"><img class="detalhe-media" data-cat="'+curso.categoria+'" src="'+photoUrl(curso.imagem)+'" alt="'+curso.nome+'"></div>'}return '<div class="curso-img"><img class="detalhe-icon" src="images/ifset.png" alt="curso"></div>'}
     function buildDocButtonsList(curso,isInativo){const ppc=curso.linkPPC&&curso.linkPPC!=='#'?'<a href="'+curso.linkPPC+'" class="btn btn-outline-'+(isInativo?'secondary':'success')+' btn-sm" target="_blank"><i class="bi bi-file-text me-1"></i> PPC</a>':'';const page=curso.linkCurso&&curso.linkCurso!=='#'?'<a href="'+curso.linkCurso+'" class="btn btn-outline-primary btn-sm" target="_blank"><i class="bi bi-link-45deg me-1"></i> Página do curso</a>':'';return ppc+page}
     function buildDocButtonsDetail(curso){const ppc=curso.linkPPC&&curso.linkPPC!=='#'?'<a href="'+curso.linkPPC+'" class="btn btn-outline-success me-2" target="_blank"><i class="bi bi-download me-1"></i>PPC</a>':'';const page=curso.linkCurso&&curso.linkCurso!=='#'?'<a href="'+curso.linkCurso+'" class="btn btn-outline-primary" target="_blank"><i class="bi bi-link-45deg me-1"></i>Página do curso</a>':'';return ppc+page}
-    function buildCardHTML(curso){const isInativo=isInativoCurso(curso);const cardClass=isInativo?'curso-card inativo':'curso-card';const media=buildMediaList(curso);const docBtns=buildDocButtonsList(curso,isInativo);return '<div class="col-sm-12 col-md-6 col-lg-4 curso-card-container" data-categoria="'+curso.categoria+'" data-curso-id="'+curso.id+'"><div class="card '+cardClass+'"><div class="card-header d-flex justify-content-between align-items-center"><span>'+nomesCategorias[curso.categoria]+'</span><span class="badge '+(isInativo?'bg-secondary':'bg-light text-dark')+'">'+(curso.status||'')+'</span></div><div class="card-body">'+media+'<h5 class="card-title mt-2">'+curso.nome+'</h5><p class="card-text">'+(curso.descricao||'')+'</p><div class="d-flex justify-content-between mb-2"><small><i class="bi bi-clock me-1"></i> '+(curso.cargaHoraria||'')+'</small><small><i class="bi bi-person me-1"></i> '+(curso.vagas!=null?curso.vagas:'-')+' vagas</small></div><div class="d-grid gap-2"><button class="btn '+(isInativo?'btn-secondary':'btn-success')+' btn-detalhes" data-curso-id="'+curso.id+'">Ver detalhes</button>'+docBtns+'</div></div></div></div>'}
+    function buildCardHTML(curso){const isInativo=isInativoCurso(curso);const cardClass=isInativo?'curso-card inativo':'curso-card';const media=buildMediaList(curso);const docBtns=buildDocButtonsList(curso,isInativo);return '<div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 curso-card-container" data-categoria="'+curso.categoria+'" data-curso-id="'+curso.id+'"><div class="card '+cardClass+'"><div class="card-header d-flex justify-content-between align-items-center"><span>'+nomesCategorias[curso.categoria]+'</span><span class="badge '+(isInativo?'bg-secondary':'bg-light text-dark')+'">'+(curso.status||'')+'</span></div><div class="card-body">'+media+'<h5 class="card-title mt-2">'+curso.nome+'</h5><p class="card-text">'+(curso.descricao||'')+'</p><div class="d-flex justify-content-between mb-2"><small><i class="bi bi-clock me-1"></i> '+(curso.cargaHoraria||'')+'</small><small><i class="bi bi-person me-1"></i> '+(curso.vagas!=null?curso.vagas:'-')+' vagas</small></div><div class="d-grid gap-2"><button class="btn '+(isInativo?'btn-secondary':'btn-success')+' btn-detalhes" data-curso-id="'+curso.id+'">Ver detalhes</button>'+docBtns+'</div></div></div></div>'}
 
     function showResult(){const cid=(window.campusNomeDisplay||'').replace(/^IFPA campus\s*/i,'');const messages={
       'fundamental-incompleto':{message:'O '+(window.campusNomeDisplay||formatCampusDisplay(null,campusParam))+' oferta cursos FIC para quem ainda não concluiu o Ensino Fundamental.',categoria:'fic',count:categoriasCount.fic},
@@ -203,3 +203,4 @@
   </script>
 </body>
 </html>
+    .curso-card-container{max-width:420px}
