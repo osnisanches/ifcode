@@ -10,8 +10,9 @@
     :root {--verde-principal:#2e7d32;--verde-secundario:#4caf50;--verde-claro:#e8f5e9;--verde-escuro:#1b5e20;--azul-principal:#1565c0;--azul-secundario:#1976d2;--azul-claro:#e3f2fd;--azul-escuro:#0d47a1;--laranja:#ff6d00}
     body{background:#fff;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif}
     .container{max-width:100%}
-    .wizard-container{background:linear-gradient(135deg,var(--verde-principal),var(--verde-escuro));color:#fff;border-radius:20px;box-shadow:0 10px 30px rgba(27,94,32,.4);padding:2rem;margin:1rem 0;max-width:1000px}
-    .wizard-container.compacto{padding:1.25rem}
+    .wizard-container{background:linear-gradient(135deg,var(--verde-principal),var(--verde-escuro));color:#fff;border-radius:20px;box-shadow:none;padding:2rem;margin:1rem 0;max-width:1000px}
+    .wizard-container.compacto{padding:.25rem .5rem;margin:0 0 1rem 0;display:flex;align-items:center;justify-content:center;overflow:visible}
+    .wizard-container.compacto{padding:.25rem .5rem;margin:0 0 1rem 0;display:flex;align-items:center;justify-content:center;overflow:visible}
     .wizard-step{display:none}
     .wizard-step.active{display:block}
     .wizard-card{background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.25);color:#fff;text-align:left;padding:1rem;margin:.5rem 0;border-radius:15px;transition:.3s;width:100%}
@@ -20,27 +21,35 @@
     .btn-wizard-primary{background:linear-gradient(135deg,var(--laranja),#ff9100);border:none}
     .wizard-header{display:flex;align-items:center;gap:8px;justify-content:flex-start}
     .wizard-header img{height:48px;max-width:180px;object-fit:contain}
-    .curso-card{transition:transform .3s ease,box-shadow .3s ease;border:none;border-top:4px solid var(--verde-principal);margin-bottom:1rem;height:100%}
+    .curso-card{transition:transform .3s ease,box-shadow .3s ease;border:none;border-top:4px solid var(--verde-principal);margin-bottom:1rem;height:100%;border-radius:var(--bs-border-radius);overflow:hidden}
     .curso-card:hover{transform:translateY(-3px);box-shadow:0 10px 20px rgba(0,0,0,.1)}
     .curso-card.inativo{opacity:.75;border-top-color:#6c757d}
-    .card-header{background-color:var(--verde-principal);color:#fff;font-weight:600}
+    .card-header{background-color:var(--verde-principal);color:#fff;font-weight:600;border-top-left-radius:var(--bs-border-radius);border-top-right-radius:var(--bs-border-radius);min-height:48px}
+    .wizard-cta{display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;padding:.25rem .5rem}
     .categoria-btn{background:#fff;color:var(--verde-principal);border:2px solid var(--verde-principal);margin:.2rem}
     .categoria-btn:hover,.categoria-btn.active{background-color:var(--verde-principal);color:#fff;border-color:var(--verde-principal)}
     input.btn-check:checked+label.categoria-btn{background-color:var(--verde-principal);color:#fff;border-color:var(--verde-principal)}
     input.btn-check:checked+label.categoria-btn i{color:#fff}
+    input#integrado.btn-check:checked+label.categoria-btn{background-color:#2e7d32;border-color:#2e7d32;color:#fff}
+    input#subsequente.btn-check:checked+label.categoria-btn{background-color:#388e3c;border-color:#388e3c;color:#fff}
+    input#graduacao.btn-check:checked+label.categoria-btn{background-color:#1b5e20;border-color:#1b5e20;color:#fff}
+    input#pos.btn-check:checked+label.categoria-btn{background-color:#43a047;border-color:#43a047;color:#fff}
+    input#fic.btn-check:checked+label.categoria-btn{background-color:#4caf50;border-color:#4caf50;color:#fff}
     .catalogo-btn{background-color:#e9f7ef;border-color:var(--verde-secundario);color:var(--verde-escuro);margin-left:.5rem}
     .catalogo-btn:hover{background-color:var(--verde-secundario);color:#fff}
+    
     .curso-detalhes{display:none;background:#fff;border-radius:8px;box-shadow:0 5px 15px rgba(0,0,0,.1);padding:1.5rem;margin-top:1rem}
     .curso-info{background-color:var(--verde-claro);border-radius:8px;padding:1rem}
     .curso-img{height:120px;background-color:var(--verde-claro);display:flex;align-items:center;justify-content:center;border-radius:8px;margin-bottom:1rem}
-    .curso-media-wrap{width:100%;height:auto;aspect-ratio:16/9;border-radius:8px;overflow:hidden;background-color:var(--verde-claro)}
+    .curso-media-wrap{width:100%;height:auto;aspect-ratio:16/9;border-radius:var(--bs-border-radius);overflow:hidden;background-color:var(--verde-claro)}
     .curso-img i{font-size:3rem;color:var(--verde-principal)}
-    .detalhe-media-wrap{width:100%;height:180px;border-radius:8px;overflow:hidden;background-color:var(--verde-claro);margin-bottom:1rem}
-    .detalhe-media{width:100%;height:100%;object-fit:cover;object-position:center}
+    .detalhe-media-wrap{width:100%;height:180px;border-radius:var(--bs-border-radius);overflow:hidden;background-color:var(--verde-claro);margin-bottom:1rem}
+    .detalhe-media{width:100%;height:100%;object-fit:cover;object-position:center;display:block}
+    .curso-media{display:block}
     .curso-icon{width:56px;height:56px;object-fit:contain}
     .detalhe-icon{width:72px;height:72px;object-fit:contain}
     .loading{text-align:center;padding:2rem;color:var(--verde-principal)}
-    #step-0 .py-3{padding-top:.5rem;padding-bottom:.5rem}
+    #step-0 .py-3{padding-top:0;padding-bottom:0}
     #step-0 .btn-wizard{margin-bottom:0}
     @media (max-width:768px){.wizard-container{padding:1rem}.wizard-card{padding:.8rem;margin:.6rem 0}.wizard-header img{height:40px}.btn-wizard{margin-bottom:.5rem}.categoria-btn{margin:.3rem}}
   </style>
@@ -59,14 +68,36 @@
 </head>
 <body>
   <div class="container">
+    
+
+    <div class="row mb-3" id="cursos-section">
+      <div class="col-12">
+        <h3 class="mb-2" id="titulo-cursos"></h3>
+        <div class="d-flex flex-wrap align-items-center" id="filtro-categorias">
+          <button id="btn-todos" class="btn categoria-btn" style="background-color:#f1f3f5;border-color:#adb5bd;color:#343a40;margin-right:.5rem">Todos os cursos</button>
+          <input type="radio" class="btn-check" name="categoria" id="integrado" autocomplete="off" checked>
+          <label class="btn categoria-btn" for="integrado"><i class="bi bi-mortarboard-fill me-2"></i>Integrados <span class="badge bg-light text-dark ms-1" id="count-integrado">0</span></label>
+          <input type="radio" class="btn-check" name="categoria" id="subsequente" autocomplete="off">
+          <label class="btn categoria-btn" for="subsequente"><i class="bi bi-book-half me-2"></i>Subsequentes <span class="badge bg-light text-dark ms-1" id="count-subsequente">0</span></label>
+          <input type="radio" class="btn-check" name="categoria" id="graduacao" autocomplete="off">
+          <label class="btn categoria-btn" for="graduacao"><i class="bi bi-award-fill me-2"></i>Graduação <span class="badge bg-light text-dark ms-1" id="count-graduacao">0</span></label>
+          <input type="radio" class="btn-check" name="categoria" id="pos" autocomplete="off">
+          <label class="btn categoria-btn" for="pos"><i class="bi bi-graph-up me-2"></i>Pós-Graduação <span class="badge bg-light text-dark ms-1" id="count-pos">0</span></label>
+          <input type="radio" class="btn-check" name="categoria" id="fic" autocomplete="off">
+          <label class="btn categoria-btn" for="fic"><i class="bi bi-tools me-2"></i>FIC <span class="badge bg-light text-dark ms-1" id="count-fic">0</span></label>
+          <a class="btn categoria-btn catalogo-btn" href="https://braganca.ifpa.edu.br/conheca-cursos"><i class="bi bi-table me-2"></i>Ver tabela de cursos e PPCs</a>
+        </div>
+        <div id="categoria-descricao" class="text-muted mt-2"></div>
+      </div>
+    </div>
+
     <div class="wizard-container compacto">
       <div id="step-0" class="wizard-step active">
         <div class="py-3">
-          <div class="wizard-header">
-            <h4 id="wizard-intro-title" class="mb-0"></h4>
+            <div class="wizard-cta">
+            <span class="fw-semibold">Quer ajuda pra achar um curso?</span>
+            <button class="btn-wizard btn-wizard-primary" onclick="nextStep(1)">Comece por aqui</button>
           </div>
-          <p class="mb-3 opacity-75">A gente te ajuda a encontrar a melhor opção!</p>
-          <button class="btn-wizard btn-wizard-primary" onclick="nextStep(1)">Começar agora</button>
         </div>
       </div>
 
@@ -119,27 +150,6 @@
       </div>
     </div>
 
-    <div class="row mb-3" id="cursos-section">
-      <div class="col-12">
-        <h3 class="mb-2" id="titulo-cursos"></h3>
-        <div class="d-flex flex-wrap align-items-center" id="filtro-categorias">
-          <button id="btn-todos" class="btn categoria-btn" style="background-color:#f1f3f5;border-color:#adb5bd;color:#343a40;margin-right:.5rem">Todos os cursos</button>
-          <input type="radio" class="btn-check" name="categoria" id="integrado" autocomplete="off" checked>
-          <label class="btn categoria-btn" for="integrado"><i class="bi bi-mortarboard-fill me-2"></i>Integrados <span class="badge bg-light text-dark ms-1" id="count-integrado">0</span></label>
-          <input type="radio" class="btn-check" name="categoria" id="subsequente" autocomplete="off">
-          <label class="btn categoria-btn" for="subsequente"><i class="bi bi-book-half me-2"></i>Subsequentes <span class="badge bg-light text-dark ms-1" id="count-subsequente">0</span></label>
-          <input type="radio" class="btn-check" name="categoria" id="graduacao" autocomplete="off">
-          <label class="btn categoria-btn" for="graduacao"><i class="bi bi-award-fill me-2"></i>Graduação <span class="badge bg-light text-dark ms-1" id="count-graduacao">0</span></label>
-          <input type="radio" class="btn-check" name="categoria" id="pos" autocomplete="off">
-          <label class="btn categoria-btn" for="pos"><i class="bi bi-graph-up me-2"></i>Pós-Graduação <span class="badge bg-light text-dark ms-1" id="count-pos">0</span></label>
-          <input type="radio" class="btn-check" name="categoria" id="fic" autocomplete="off">
-          <label class="btn categoria-btn" for="fic"><i class="bi bi-tools me-2"></i>FIC <span class="badge bg-light text-dark ms-1" id="count-fic">0</span></label>
-          <a class="btn categoria-btn catalogo-btn" href="https://braganca.ifpa.edu.br/conheca-cursos" target="_blank"><i class="bi bi-table me-2"></i>Ver tabela de cursos e PPCs</a>
-        </div>
-        <div id="categoria-descricao" class="text-muted mt-2"></div>
-      </div>
-    </div>
-
     <div class="row justify-content-center g-3" id="cursos-container">
       <div class="col-12 loading">
         <div class="spinner-border text-success" role="status"><span class="visually-hidden">Carregando cursos...</span></div>
@@ -160,11 +170,12 @@
     let categoriasCount={integrado:0,subsequente:0,graduacao:0,pos:0,fic:0}
     function isInativoCurso(c){const s=(c&&c.status)||'';return s==='Inativo'||s==='Sem oferta'}
 
-    function nextStep(step){document.querySelectorAll('.wizard-step').forEach(s=>s.classList.remove('active'));const el=document.getElementById('step-'+step);if(el)el.classList.add('active');const wc=document.querySelector('.wizard-container');if(wc){wc.classList.remove('compacto')}setBrandFooterVisible(step!==0)}
+    function nextStep(step){document.querySelectorAll('.wizard-step').forEach(s=>s.classList.remove('active'));const el=document.getElementById('step-'+step);if(el)el.classList.add('active');const wc=document.querySelector('.wizard-container');if(wc){if(step===0){wc.classList.add('compacto');adjustWizardHeight()}else{wc.classList.remove('compacto');wc.style.height=''}}setBrandFooterVisible(step!==0)}
     function selectEscolaridade(escolaridade){wizardData.escolaridade=escolaridade;if(escolaridade==='medio-concluindo'||escolaridade==='medio-concluido'){nextStep(2)}else{showResult()}}
     function selectEnem(resposta){wizardData.enem=resposta;showResult()}
-    function scrollToCursos(){document.getElementById('cursos-section').scrollIntoView({behavior:'smooth',block:'start'})}
+    function scrollToCursos(){document.getElementById('cursos-container').scrollIntoView({behavior:'smooth',block:'start'})}
     function restartWizard(){wizardData={escolaridade:'',enem:''};mostrarTodos(window.cursosData||[]);nextStep(0)}
+    function adjustWizardHeight(){const wc=document.querySelector('.wizard-container.compacto');if(!wc)return;const btn=wc.querySelector('#step-0 .btn-wizard');const cta=wc.querySelector('.wizard-cta');if(btn&&cta){const base=Math.round(btn.offsetHeight*1.2);const cs=getComputedStyle(wc);const padTop=parseFloat(cs.paddingTop)||0;const padBottom=parseFloat(cs.paddingBottom)||0;const content=cta.offsetHeight+padTop+padBottom;wc.style.height=Math.max(base,content)+'px'}}
 
     const iconesCategorias={integrado:'bi-laptop',subsequente:'bi-gear-fill',graduacao:'bi-award-fill',pos:'bi-graph-up',fic:'bi-tools'}
     const nomesCategorias={integrado:'Integrado',subsequente:'Subsequente',graduacao:'Graduação',pos:'Pós-Graduação',fic:'FIC'}
@@ -177,7 +188,7 @@
     function buildMediaDetail(curso){if(hasImagem(curso)){return '<div class="detalhe-media-wrap"><img class="detalhe-media" data-cat="'+curso.categoria+'" src="'+photoUrl(curso.imagem)+'" alt="'+curso.nome+'"></div>'}return '<div class="curso-img"><img class="detalhe-icon" src="images/ifset.png" alt="curso"></div>'}
     function buildDocButtonsList(curso,isInativo){const ppc=curso.linkPPC&&curso.linkPPC!=='#'?'<a href="'+curso.linkPPC+'" class="btn btn-outline-'+(isInativo?'secondary':'success')+' btn-sm" target="_blank"><i class="bi bi-file-text me-1"></i> PPC</a>':'';const page=curso.linkCurso&&curso.linkCurso!=='#'?'<a href="'+curso.linkCurso+'" class="btn btn-outline-primary btn-sm" target="_blank"><i class="bi bi-link-45deg me-1"></i> Página do curso</a>':'';return ppc+page}
     function buildDocButtonsDetail(curso){const ppc=curso.linkPPC&&curso.linkPPC!=='#'?'<a href="'+curso.linkPPC+'" class="btn btn-outline-success me-2" target="_blank"><i class="bi bi-download me-1"></i>PPC</a>':'';const page=curso.linkCurso&&curso.linkCurso!=='#'?'<a href="'+curso.linkCurso+'" class="btn btn-outline-primary" target="_blank"><i class="bi bi-link-45deg me-1"></i>Página do curso</a>':'';return ppc+page}
-    function buildCardHTML(curso){const isInativo=isInativoCurso(curso);const cardClass=isInativo?'curso-card inativo':'curso-card';const media=buildMediaList(curso);const docBtns=buildDocButtonsList(curso,isInativo);return '<div class="col-11 col-sm-10 col-md-6 col-lg-4 col-xl-3 curso-card-container" data-categoria="'+curso.categoria+'" data-curso-id="'+curso.id+'"><div class="card '+cardClass+'"><div class="card-header d-flex justify-content-between align-items-center"><span>'+nomesCategorias[curso.categoria]+'</span><span class="badge '+(isInativo?'bg-secondary':'bg-light text-dark')+'">'+(curso.status||'')+'</span></div><div class="card-body">'+media+'<h5 class="card-title mt-2">'+curso.nome+'</h5><p class="card-text">'+(curso.descricao||'')+'</p><div class="d-flex justify-content-between mb-2"><small><i class="bi bi-clock me-1"></i> '+(curso.cargaHoraria||'')+'</small><small><i class="bi bi-person me-1"></i> '+(curso.vagas!=null?curso.vagas:'-')+' vagas</small></div><div class="d-grid gap-2"><button class="btn '+(isInativo?'btn-secondary':'btn-success')+' btn-detalhes" data-curso-id="'+curso.id+'">Ver detalhes</button>'+docBtns+'</div></div></div></div>'}
+    function buildCardHTML(curso){const isInativo=isInativoCurso(curso);const cardClass=isInativo?'curso-card inativo':'curso-card';const media=buildMediaList(curso);const docBtns=buildDocButtonsList(curso,isInativo);return '<div class="col-11 col-sm-10 col-md-6 col-lg-4 col-xl-3 curso-card-container" data-categoria="'+curso.categoria+'" data-curso-id="'+curso.id+'"><div class="card '+cardClass+'"><div class="card-header '+(isInativo?'bg-secondary':'')+' d-flex justify-content-between align-items-center"><span>'+nomesCategorias[curso.categoria]+'</span><span class="badge '+(isInativo?'bg-dark text-white':'bg-light text-dark')+'">'+(curso.status||'')+'</span></div><div class="card-body">'+media+'<h5 class="card-title mt-2">'+curso.nome+'</h5><p class="card-text">'+(curso.descricao||'')+'</p><div class="d-flex justify-content-between mb-2"><small><i class="bi bi-clock me-1"></i> '+(curso.cargaHoraria||'')+'</small><small><i class="bi bi-person me-1"></i> '+(curso.vagas!=null?curso.vagas:'-')+' vagas</small></div><div class="d-grid gap-2"><button class="btn '+(isInativo?'btn-secondary':'btn-success')+' btn-detalhes" data-curso-id="'+curso.id+'">Ver detalhes</button>'+docBtns+'</div></div></div></div>'}
 
     function showResult(){const cid=(window.campusNomeDisplay||'').replace(/^IFPA campus\s*/i,'');const messages={
       'fundamental-incompleto':{message:'O '+(window.campusNomeDisplay||formatCampusDisplay(null,campusParam))+' oferta cursos FIC para quem ainda não concluiu o Ensino Fundamental.',categoria:'fic',count:categoriasCount.fic},
@@ -204,10 +215,10 @@
     function aplicarFallbackDetalhe(){document.querySelectorAll('img.detalhe-media').forEach(img=>{img.onerror=()=>{const wrap=document.createElement('div');wrap.className='curso-img';const icon=document.createElement('img');icon.src='images/ifset.png';icon.alt='curso';icon.className='detalhe-icon';icon.style.width='72px';icon.style.height='72px';icon.style.objectFit='contain';wrap.appendChild(icon);img.replaceWith(wrap)}})}
     function aplicarFallbackIcones(){document.querySelectorAll('.curso-img i.bi').forEach(i=>{const before=window.getComputedStyle(i,'::before').getPropertyValue('content');if(!before||before==='none'||before==='normal'){const p=i.parentElement;p.innerHTML='<img class="curso-icon" src="images/ifset.png" alt="curso">'}})}
 
-    function mostrarDetalhesCurso(cursoId,cursos){const curso=cursos.find(c=>String(c.id)===String(cursoId));const detalhesDiv=document.getElementById('curso-detalhes');if(!curso)return;const isInativo=curso.status==='Inativo'||curso.status==='Sem oferta';const descModalidade=getCategoriaDescricao(curso.categoria);const media=buildMediaDetail(curso);const docBtns=buildDocButtonsDetail(curso);const emailHtml=(curso.email?('<a href="mailto:'+curso.email+'">'+curso.email+'</a>'):'');detalhesDiv.innerHTML='<div class="row g-3"><div class="col-md-8">'+media+'<h3 class="mb-2">'+curso.nome+'</h3><p class="lead">'+(curso.descricao||'')+'</p><h5 class="mt-3">Informações do curso</h5><div class="curso-info"><div class="row"><div class="col-md-6"><p><strong>Vagas:</strong> '+(curso.vagas!=null?curso.vagas:'-')+'</p><p><strong>Duração:</strong> '+(curso.duracao||'')+'</p></div><div class="col-md-6"><p><strong>Carga horária:</strong> '+(curso.cargaHoraria||'')+'</p><p><strong>Turno:</strong> '+(curso.turno||'')+'</p><p><strong>Modalidade:</strong> '+nomesCategorias[curso.categoria]+'</p><p class="text-muted"><strong>Descrição da modalidade:</strong> '+descModalidade+'</p><p><strong>Status:</strong> <span class="badge '+(isInativo?'bg-secondary':'bg-success')+'">'+(curso.status||'')+'</span></p></div></div></div>'+(docBtns?'<h5 class="mt-3">Documentação</h5><div class="mb-3">'+docBtns+'</div>':'')+'</div><div class="col-md-4"><div class="card"><div class="card-header '+(isInativo?'bg-secondary':'bg-success')+' text-white"><h5 class="mb-0">Coordenador</h5></div><div class="card-body"><p class="mb-2"><strong>'+(curso.coordenador||'')+'</strong></p><p class="mb-2"><i class="bi bi-envelope me-2"></i> '+emailHtml+'</p>'+(!isInativo?'<a href="'+CONFIG.proselUrl+'" class="btn btn-success w-100 mt-2" target="_blank">Processo seletivo</a>':'')+'</div></div></div></div><button class="btn btn-secondary mt-3" onclick="fecharDetalhes()">Voltar para a lista</button>';detalhesDiv.style.display='block';aplicarFallbackDetalhe();detalhesDiv.scrollIntoView({behavior:'smooth',block:'start'})}
+    function mostrarDetalhesCurso(cursoId,cursos){const curso=cursos.find(c=>String(c.id)===String(cursoId));const detalhesDiv=document.getElementById('curso-detalhes');if(!curso)return;const isInativo=curso.status==='Inativo'||curso.status==='Sem oferta';const descModalidade=getCategoriaDescricao(curso.categoria);const media=buildMediaDetail(curso);const docBtns=buildDocButtonsDetail(curso);const emailHtml=(curso.email?('<a href="mailto:'+curso.email+'">'+curso.email+'</a>'):'');detalhesDiv.innerHTML='<div class="row g-3"><div class="col-md-8">'+media+'<h3 class="mb-2">'+curso.nome+'</h3><p class="lead">'+(curso.descricao||'')+'</p><h5 class="mt-3">Informações do curso</h5><div class="curso-info"><div class="row"><div class="col-md-6"><p><strong>Vagas:</strong> '+(curso.vagas!=null?curso.vagas:'-')+'</p><p><strong>Duração:</strong> '+(curso.duracao||'')+'</p></div><div class="col-md-6"><p><strong>Carga horária:</strong> '+(curso.cargaHoraria||'')+'</p><p><strong>Turno:</strong> '+(curso.turno||'')+'</p><p><strong>Modalidade:</strong> '+nomesCategorias[curso.categoria]+'</p><p class="text-muted"><strong>Descrição da modalidade:</strong> '+descModalidade+'</p><p><strong>Status:</strong> <span class="badge '+(isInativo?'bg-dark text-white':'bg-success')+'">'+(curso.status||'')+'</span></p></div></div></div>'+(docBtns?'<h5 class="mt-3">Documentação</h5><div class="mb-3">'+docBtns+'</div>':'')+'</div><div class="col-md-4"><div class="card"><div class="card-header '+(isInativo?'bg-secondary':'bg-success')+' text-white"><h5 class="mb-0">Coordenador</h5></div><div class="card-body"><p class="mb-2"><strong>'+(curso.coordenador||'')+'</strong></p><p class="mb-2"><i class="bi bi-envelope me-2"></i> '+emailHtml+'</p>'+(!isInativo?'<a href="'+CONFIG.proselUrl+'" class="btn btn-success w-100 mt-2" target="_blank">Processo seletivo</a>':'')+'</div></div></div></div><button class="btn btn-secondary mt-3" onclick="fecharDetalhes()">Voltar para a lista</button>';detalhesDiv.style.display='block';aplicarFallbackDetalhe();detalhesDiv.scrollIntoView({behavior:'smooth',block:'start'})}
     function fecharDetalhes(){document.getElementById('curso-detalhes').style.display='none';document.getElementById('cursos-section').scrollIntoView({behavior:'smooth',block:'start'})}
 
-    document.addEventListener('DOMContentLoaded',function(){setIntroTitle();setBrandFooterVisible(true);carregarCursos()})
+    document.addEventListener('DOMContentLoaded',function(){setIntroTitle();setBrandFooterVisible(true);adjustWizardHeight();carregarCursos();window.addEventListener('resize',adjustWizardHeight)})
     function atualizarContagens(cursos){categoriasCount={integrado:0,subsequente:0,graduacao:0,pos:0,fic:0};cursos.forEach(c=>{if(categoriasCount[c.categoria]!=null&&!isInativoCurso(c)){categoriasCount[c.categoria]++}})}
     function updateCategoriaLabels(){document.getElementById('count-integrado').textContent=categoriasCount.integrado;document.getElementById('count-subsequente').textContent=categoriasCount.subsequente;document.getElementById('count-graduacao').textContent=categoriasCount.graduacao;document.getElementById('count-pos').textContent=categoriasCount.pos;document.getElementById('count-fic').textContent=categoriasCount.fic}
   </script>

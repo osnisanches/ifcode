@@ -126,7 +126,7 @@
       "duracao": "1,5 anos",
       "coordenador": "Barbara Pereira dos Santos Carmona ",
       "email": "eventos.braganca@ifpa.edu.br",
-      "imagem": ""
+      "imagem": "images/eventos-braga.jpg"
     },
     {
       "id": 205,
@@ -142,7 +142,7 @@
       "duracao": "2 anos",
       "coordenador": "Kátia Regina Jesus da Costa",
       "email": "katia.costa@ifpa.edu.br",
-      "imagem": ""
+      "imagem": "images/guia-turismo-braga.jpg"
     },
     {
       "id": 302,
@@ -206,7 +206,7 @@
       "duracao": "4 anos",
       "coordenador": "Gabriel Barros",
       "email": "geografia.braganca@ifpa.edu.br",
-      "imagem": "images/geografia-01.png"
+      "imagem": "images/geografia-braga.png"
     },
     {
       "id": 305,
@@ -526,7 +526,7 @@
       "duracao": "",
       "coordenador": "Coordenação de Ensino",
       "email": "ensino.braganca@ifpa.edu.br",
-      "imagem": "images/geografia-01.png"
+      "imagem": "images/eventos-braga.jpg"
     }
   ],
   "campus": "IFPA Campus Bragança"
