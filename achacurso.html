@@ -10,7 +10,7 @@
     :root {--verde-principal:#2e7d32;--verde-secundario:#4caf50;--verde-claro:#e8f5e9;--verde-escuro:#1b5e20;--azul-principal:#1565c0;--azul-secundario:#1976d2;--azul-claro:#e3f2fd;--azul-escuro:#0d47a1;--laranja:#ff6d00}
     body{background:#fff;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif}
     .container{max-width:100%}
-    .wizard-container{background:linear-gradient(135deg,var(--azul-principal),var(--azul-escuro));color:#fff;border-radius:20px;box-shadow:0 10px 30px rgba(21,101,192,.4);padding:2rem;margin:1rem 0;max-width:1000px}
+    .wizard-container{background:linear-gradient(135deg,var(--verde-principal),var(--verde-escuro));color:#fff;border-radius:20px;box-shadow:0 10px 30px rgba(27,94,32,.4);padding:2rem;margin:1rem 0;max-width:1000px}
     .wizard-container.compacto{padding:1.25rem}
     .wizard-step{display:none}
     .wizard-step.active{display:block}
@@ -28,6 +28,8 @@
     .categoria-btn:hover,.categoria-btn.active{background-color:var(--verde-principal);color:#fff;border-color:var(--verde-principal)}
     input.btn-check:checked+label.categoria-btn{background-color:var(--verde-principal);color:#fff;border-color:var(--verde-principal)}
     input.btn-check:checked+label.categoria-btn i{color:#fff}
+    .catalogo-btn{background-color:#e9f7ef;border-color:var(--verde-secundario);color:var(--verde-escuro);margin-left:.5rem}
+    .catalogo-btn:hover{background-color:var(--verde-secundario);color:#fff}
     .curso-detalhes{display:none;background:#fff;border-radius:8px;box-shadow:0 5px 15px rgba(0,0,0,.1);padding:1.5rem;margin-top:1rem}
     .curso-info{background-color:var(--verde-claro);border-radius:8px;padding:1rem}
     .curso-img{height:120px;background-color:var(--verde-claro);display:flex;align-items:center;justify-content:center;border-radius:8px;margin-bottom:1rem}
@@ -132,6 +134,7 @@
           <label class="btn categoria-btn" for="pos"><i class="bi bi-graph-up me-2"></i>Pós-Graduação <span class="badge bg-light text-dark ms-1" id="count-pos">0</span></label>
           <input type="radio" class="btn-check" name="categoria" id="fic" autocomplete="off">
           <label class="btn categoria-btn" for="fic"><i class="bi bi-tools me-2"></i>FIC <span class="badge bg-light text-dark ms-1" id="count-fic">0</span></label>
+          <a class="btn categoria-btn catalogo-btn" href="https://braganca.ifpa.edu.br/conheca-cursos" target="_blank"><i class="bi bi-table me-2"></i>Ver tabela de cursos e PPCs</a>
         </div>
         <div id="categoria-descricao" class="text-muted mt-2"></div>
       </div>
