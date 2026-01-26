@@ -512,7 +512,39 @@
       "email": "ensino.braganca@ifpa.edu.br",
       "imagem": "images/geografia-01.png"
     },
-    {
+{
+"id": 506,
+"nome": "Agente de Desenvolvimento Cooperativista",
+"categoria": "fic",
+"status": "Ativo",
+"vagas": 40,
+"linkPPC": "https://drive.google.com/file/d/1EDmGTKByl8YidQWpanxkg1rv76o-jqsq/view?usp=drive_link", 
+"linkCurso": "https://braganca.ifpa.edu.br/conheca-cursos",
+"descricao": "Curso de Formação Inicial e Continuada para atuação no planejamento, execução de processos e constituição de cooperativas, com foco em gestão, direito cooperativista, marketing e empreendedorismo.",
+"cargaHoraria": "160h",
+"turno": "",
+"duracao": "3 meses",
+"coordenador": "Josinaldo Reis do Nascimento",
+"email": "josinaldo.reis@ifpa.edu.br",
+"imagem": ""
+},
+{
+"id": 507,
+"nome": "Pescador Profissional (POP1/MOP1) Programa Mulheres Mil",
+"categoria": "fic",
+"status": "Ativo",
+"vagas": 40,
+"linkPPC": "https://drive.google.com/file/d/1TGQVQFyINmYVekYcv8bK9KiJnF9QeNf_/view?usp=drive_link",
+"linkCurso": "https://braganca.ifpa.edu.br/conheca-cursos",
+"descricao": "Curso FIC voltado especialmente para mulheres pescadoras, com formação técnico-prática em pesca profissional, segurança, sustentabilidade e regulamentação da profissão, incluindo certificação pela Marinha do Brasil.",
+"cargaHoraria": "160h",
+"turno": "",
+"duracao": "3 a 5 meses",
+"coordenador": "Francisco José da Silva Santos",
+"email": "francisco.santos@ifpa.edu.br",
+"imagem": ""
+},
+        {
       "id": 110,
       "nome": "Eventos (ProEJA)",
       "categoria": "integrado",
