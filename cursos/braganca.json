@@ -14,7 +14,7 @@
       "duracao": "3 anos",
       "coordenador": "Maria Eduarda Pereira",
       "email": "aquicultura.braganca@ifpa.edu.br",
-      "imagem": "images/aquicultura.jpg"
+      "imagem": "https://braganca.ifpa.edu.br/images/cursos/aquicultura.jpg"
     },
     {
       "id": 103,
@@ -30,7 +30,7 @@
       "duracao": "3 anos",
       "coordenador": "Amiraldo César Alves de Aviz",
       "email": "edificacao.braganca@ifpa.edu.br",
-      "imagem": "images/edificacoes.jpg"
+      "imagem": "https://braganca.ifpa.edu.br/images/cursos/edificacoes.jpg"
     },
     {
       "id": 106,
@@ -46,7 +46,7 @@
       "duracao": "3 anos",
       "coordenador": "Fernando José Rodrigues Lobato",
       "email": "informatica.braganca@ifpa.edu.br",
-      "imagem": "images/geografia-01.png"
+      "imagem": "https://braganca.ifpa.edu.br/images/cursos/campus-braganca.png"
     },
     {
       "id": 109,
@@ -62,7 +62,7 @@
       "duracao": "3 anos",
       "coordenador": "Francisca Socorro Peixoto",
       "email": "meioambiente.braganca@ifpa.edu.br",
-      "imagem": "images/geografia-01.png"
+      "imagem": "https://braganca.ifpa.edu.br/images/cursos/campus-braganca.png"
     },
     {
       "id": 107,
@@ -94,7 +94,7 @@
       "duracao": "2 anos",
       "coordenador": "Tiago Augusto Nascimento Rodrigues",
       "email": "agropecuaria.braganca@ifpa.edu.br",
-      "imagem": "images/agropecuaria2.jpg"
+      "imagem": "https://braganca.ifpa.edu.br/images/cursos/agropecuaria2.jpg"
     },
     {
       "id": 203,
@@ -110,7 +110,7 @@
       "duracao": "2 anos",
       "coordenador": "Amiraldo César Alves de Aviz",
       "email": "edificacao.braganca@ifpa.edu.br",
-      "imagem": "images/edificacoes-int.jpg"
+      "imagem": "https://braganca.ifpa.edu.br/images/cursos/edificacoes-int.jpg"
     },
     {
       "id": 104,
@@ -126,7 +126,7 @@
       "duracao": "1,5 anos",
       "coordenador": "Barbara Pereira dos Santos Carmona ",
       "email": "eventos.braganca@ifpa.edu.br",
-      "imagem": "images/eventos-braga.jpg"
+      "imagem": "https://braganca.ifpa.edu.br/images/cursos/eventos-braga.jpg"
     },
     {
       "id": 205,
@@ -142,7 +142,7 @@
       "duracao": "2 anos",
       "coordenador": "Kátia Regina Jesus da Costa",
       "email": "katia.costa@ifpa.edu.br",
-      "imagem": "images/guia-turismo-braga.jpg"
+      "imagem": "https://braganca.ifpa.edu.br/images/cursos/guia-turismo-braga.jpg"
     },
     {
       "id": 302,
@@ -174,7 +174,7 @@
       "duracao": "4 anos",
       "coordenador": "Ludymylla Maria Gomes de Lucena",
       "email": "educampo.braganca@ifpa.edu.br",
-      "imagem": "images/educacaodocampo.jpg"
+      "imagem": "https://braganca.ifpa.edu.br/images/cursos/educacaodocampo.jpg"
     },
     {
       "id": 304,
@@ -206,7 +206,7 @@
       "duracao": "4 anos",
       "coordenador": "Gabriel Barros",
       "email": "geografia.braganca@ifpa.edu.br",
-      "imagem": "images/geografia-braga.png"
+      "imagem": "https://braganca.ifpa.edu.br/images/cursos/geografia-braga.png"
     },
     {
       "id": 305,
@@ -494,7 +494,7 @@
       "duracao": "",
       "coordenador": "Coordenação de Ensino",
       "email": "ensino.braganca@ifpa.edu.br",
-      "imagem": "images/geografia-01.png"
+      "imagem": "https://braganca.ifpa.edu.br/images/cursos/campus-braganca.png"
     },
     {
       "id": 207,
@@ -510,7 +510,7 @@
       "duracao": "",
       "coordenador": "Coordenação de Ensino",
       "email": "ensino.braganca@ifpa.edu.br",
-      "imagem": "images/geografia-01.png"
+      "imagem": "https://braganca.ifpa.edu.br/images/cursos/campus-braganca.png"
     },
 {
 "id": 506,
@@ -558,7 +558,7 @@
       "duracao": "",
       "coordenador": "Coordenação de Ensino",
       "email": "ensino.braganca@ifpa.edu.br",
-      "imagem": "images/eventos-braga.jpg"
+      "imagem": "https://braganca.ifpa.edu.br/images/cursos/eventos-braga.jpg"
     }
   ],
   "campus": "IFPA Campus Bragança"
